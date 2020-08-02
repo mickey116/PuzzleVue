@@ -7,7 +7,6 @@
         <td> {{item.price}}</td>
         <td>
           <router-link :to="`/goodsdetail/${item.id}`">連結</router-link>
-          <button class="btn btn-outline-primary">看細節</button>
         </td>
       </tr>
     </table>
