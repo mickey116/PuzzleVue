@@ -15,7 +15,7 @@
       </button>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">登出</a>
+          <a class="nav-link" href="#" @click.prevent="logout">登出</a>
         </li>
       </ul>
     </nav>
@@ -53,11 +53,10 @@ export default {
       // 驗證api
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/auth/check`;
-      console.log(api, vm.token);
       // eslint-disable-next-line
-      vm.$http.post(api, { 'api_token': vm.token })
+      vm.$http
+        .post(api, { api_token: vm.token })
         .then((res) => {
-          console.log(res.data);
           // 登入沒有問題
           if (res.data.success) {
             vm.checkSuccess = true;
@@ -69,16 +68,21 @@ export default {
           vm.$router.push('/login');
         });
     },
-    created() {
-      this.checkLogin();
+    logout() {
+      document.cookie = 'hasToken=;expires=;';
+      console.log('token 已清除');
+      this.$router.push('/login');
     },
+  },
+  created() {
+    this.checkLogin();
   },
 };
 </script>
 
 <style lang="scss">
 body {
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 .feather {
@@ -98,7 +102,7 @@ body {
   left: 0;
   z-index: 100; /* Behind the navbar */
   padding: 48px 0 0; /* Height of navbar */
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 767.98px) {
@@ -111,7 +115,7 @@ body {
   position: relative;
   top: 0;
   height: calc(100vh - 48px);
-  padding-top: .5rem;
+  padding-top: 0.5rem;
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
@@ -143,7 +147,7 @@ body {
 }
 
 .sidebar-heading {
-  font-size: .75rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
 }
 
@@ -152,32 +156,32 @@ body {
  */
 
 .navbar-brand {
-  padding-top: .75rem;
-  padding-bottom: .75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   font-size: 1rem;
-  background-color: rgba(0, 0, 0, .25);
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+  background-color: rgba(0, 0, 0, 0.25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25);
 }
 
 .navbar .navbar-toggler {
-  top: .25rem;
+  top: 0.25rem;
   right: 1rem;
 }
 
 .navbar .form-control {
-  padding: .75rem 1rem;
+  padding: 0.75rem 1rem;
   border-width: 0;
   border-radius: 0;
 }
 
 .form-control-dark {
   color: #fff;
-  background-color: rgba(255, 255, 255, .1);
-  border-color: rgba(255, 255, 255, .1);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .form-control-dark:focus {
   border-color: transparent;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
 </style>
