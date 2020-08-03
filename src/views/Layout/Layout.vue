@@ -1,9 +1,9 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">
-        <img src="@/assets/images/logo5.png" width="150" height="150" alt />
-      </a>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <router-link to="/" class="navbar-brand mb-0 h1">Puzzle</router-link>
+      <!-- <a class="navbar-brand mb-0 h1" href="#">Puzzle</a> -->
       <button
         class="navbar-toggler"
         type="button"
@@ -18,7 +18,7 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav h4 ml-auto">
           <li class="nav-item">
-            <router-link to="/goods" class="nav-link">美味菜單</router-link>
+            <router-link to="/goods" class="nav-link">產品列表</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/about" class="nav-link">關於我們</router-link>
@@ -32,6 +32,7 @@
         </ul>
       </div>
     </nav>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -47,7 +48,5 @@ export default {};
 .nav-link{
   color: tomato !important;
 }
-nav a {
-  color: orange;
-}
+
 </style>

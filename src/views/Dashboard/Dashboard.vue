@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3 text-center" href="#">M Thai 後臺管理</a>
+      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3 text-center" href="#">Puzzle</a>
       <button
         class="navbar-toggler position-absolute d-md-none collapsed"
         type="button"
@@ -19,7 +19,7 @@
         </li>
       </ul>
     </nav>
-
+    <AlertMessage/>
     <div class="container-fluid">
       <div class="row">
         <Sidebar></Sidebar>
@@ -32,12 +32,14 @@
 </template>
 
 <script>
+import AlertMessage from '@/components/AlertMessage.vue';
 import Sidebar from './Sidebar.vue';
 
 export default {
   name: 'Dashboard',
   components: {
     Sidebar,
+    AlertMessage,
   },
   data() {
     return {
