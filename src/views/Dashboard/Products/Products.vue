@@ -13,7 +13,7 @@
         <th width="150">是否啟用</th>
         <th width="120">編輯</th>
       </thead>
-      <tbody>
+      <tbody v-if="products.length">
         <tr v-for="item in products" :key="item.id">
           <td>{{item.category}}</td>
           <td>{{item.title}}</td>
@@ -35,7 +35,8 @@
       </tbody>
     </table>
 
-    <pagination :pages="pagination" @emitpage="getProducts"></pagination>
+    <pagination :pages="pagination" @emitpage="getProducts"
+    v-if="pagination.total_pages >= 2"></pagination>
 
     <div
       id="productModal"

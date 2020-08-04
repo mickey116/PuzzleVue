@@ -2,9 +2,9 @@
   <div>
     <Loading :active.sync="isLoading"></Loading>
     <div class="text-right mt-4">
-      <button class="btn btn-primary" @click="openCouponModal('create')">建立新的優惠券</button>
+      <button class="btn btn-info" @click="openCouponModal('create')">建立新的優惠券</button>
     </div>
-    <table class="table mt-4">
+    <table class="table mt-4 text-center">
       <thead>
         <tr class="text-center">
           <th>名稱</th>
@@ -14,7 +14,7 @@
           <th width="120">編輯</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="coupons.length">
         <tr v-for="( item,key ) in coupons" :key="key">
           <td>{{ item.title }}</td>
           <td>{{ item.percent }}</td>
@@ -24,10 +24,12 @@
             <span v-else class="text-muted">未啟用</span>
           </td>
           <td>
-            <button class="btn btn-outline-primary btn-sm"
-            @click="openCouponModal('edit', item)">編輯</button>
-            <button class="btn btn-outline-danger btn-sm"
-            @click="openCouponModal('delete', item)">刪除</button>
+            <a href="#" class="text-warning mr-4" @click.prevent="openCouponModal('edit', item)">
+              <i class="far fa-edit"></i>
+            </a>
+            <a href="#" class="text-danger" @click.prevent="openCouponModal('delete', item)">
+              <i class="far fa-trash-alt"></i>
+            </a>
           </td>
         </tr>
       </tbody>
@@ -35,7 +37,7 @@
 
     <!-- Pagination -->
     <Pagination :pages="pagination" @emitpage="getCoupons"
-    v-if="pagination.count != 0"></Pagination>
+    v-if="pagination.total_pages >= 2"></Pagination>
 
     <!-- Modal -->
     <div
@@ -80,7 +82,22 @@
             </div>
             <div class="form-group">
               <label for="due_date">到期日</label>
-              <input type="date" class="form-control" id="due_date" v-model="due_date" />
+              <input
+                id="due_date"
+                v-model="due_date"
+                type="date"
+                class="form-control"
+              >
+            </div>
+            <div class="form-group">
+              <label for="due_time">到期時間</label>
+              <input
+                id="due_time"
+                v-model="due_time"
+                type="time"
+                step="1"
+                class="form-control"
+              >
             </div>
             <div class="form-group">
               <label for="percent">折扣百分比</label>
@@ -165,7 +182,7 @@ export default {
         title: '',
         enabled: false,
         percent: 100,
-        deadline_at: 0,
+        deadline_at: '',
         code: '',
       },
       due_date: '',
@@ -199,8 +216,8 @@ export default {
         case 'edit': {
           vm.tempCoupon = { ...item };
           // 使用 split 切割相關時間戳
-          const deadlineAt = this.tempCoupon.deadline.datetime.split(' ');
-          [vm.due_date, vm.due_time] = deadlineAt; // 日期 ,時間
+          const deadlineAt = vm.tempCoupon.deadline.datetime.split(' ');
+          [this.due_date, this.due_time] = deadlineAt; // 日期
           $('#couponModal').modal('show');
           break;
         }
@@ -242,7 +259,7 @@ export default {
       }
       // 針對日期做組合重新寫入到物件中
       // 日期格式 Y-m-d H:i:s，例如：「2020-06-16 09:31:18」
-      vm.tempCoupon.deadline_at = `${vm.due_date} ${vm.due_time}`;
+      this.tempCoupon.deadline_at = `${this.due_date} ${this.due_time}`;
       // API
       vm.$http[httpMethod](api, vm.tempCoupon).then((res) => {
         $('#couponModal').modal('hide');
