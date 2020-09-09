@@ -218,7 +218,7 @@
 
 <script>
 import $ from 'jquery';
-import Pagination from '../Pagination.vue';
+import Pagination from '@/components/Pagination.vue';
 
 export default {
   name: 'Products',
@@ -283,6 +283,7 @@ export default {
       let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/product`;
       let httpMethod = 'post';
       // 編輯
+      // 當不是新增商品時則切換成編輯商品 API
       if (!vm.isNew) {
         api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/product/${vm.tempProduct.id}`;
         httpMethod = 'patch';

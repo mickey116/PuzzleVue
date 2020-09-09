@@ -8,6 +8,9 @@
 <script>
 export default {
   name: 'About',
+  created() {
+    this.$parent.$refs.opencanvas.style.width = '0px';
+  },
 
 };
 </script>

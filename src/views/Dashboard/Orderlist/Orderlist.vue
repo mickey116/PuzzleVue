@@ -4,12 +4,13 @@
   <table class="table mt-5 text-center">
     <thead>
       <tr>
-          <th  width="120">購買時間</th>
-          <th >購買款項</th>
-          <th width="120">應付金額</th>
-          <th width="120">付款方式</th>
-          <th width="120">是否付款</th>
-        </tr>
+        <th  width="120">購買時間</th>
+        <th >購買款項</th>
+        <th width="100">應付金額</th>
+        <th width="100">付款方式</th>
+        <th width="120">是否付款</th>
+        <th >買家備註</th>
+      </tr>
     </thead>
     <tbody v-if="orders.length">
       <tr v-for="(item) in orders" :key="item.id"
@@ -30,29 +31,30 @@
           {{ item.payment }}
         </th>
         <td>
-            <div class="custom-control custom-switch">
-              <input
-                :id="item.id"
-                v-model="item.paid"
-                type="checkbox"
-                class="custom-control-input"
-                @change="setOrderPaid(item)"
-              >
-              <label
-                class="custom-control-label"
-                :for="item.id"
-              >
-                <strong
-                  v-if="item.paid"
-                  class="text-success"
-                >已付款</strong>
-                <span
-                  v-else
-                  class="text-muted"
-                >尚未付款</span>
-              </label>
-            </div>
-          </td>
+          <div class="custom-control custom-switch">
+            <input
+              :id="item.id"
+              v-model="item.paid"
+              type="checkbox"
+              class="custom-control-input"
+              @change="setOrderPaid(item)"
+            >
+            <label
+              class="custom-control-label"
+              :for="item.id"
+            >
+              <strong
+                v-if="item.paid"
+                class="text-success"
+              >已付款</strong>
+              <span
+                v-else
+                class="text-muted"
+              >尚未付款</span>
+            </label>
+          </div>
+        </td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -65,7 +67,7 @@
 </template>
 
 <script>
-import Pagination from '../Pagination.vue';
+import Pagination from '@/components/Pagination.vue';
 
 export default {
   name: 'Orderlist',

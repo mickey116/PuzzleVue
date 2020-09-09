@@ -1,52 +1,57 @@
 <template>
-  <div>
-    <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <router-link to="/" class="navbar-brand mb-0 h1">Puzzle</router-link>
-      <!-- <a class="navbar-brand mb-0 h1" href="#">Puzzle</a> -->
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarTogglerDemo02"
-        aria-controls="navbarTogglerDemo02"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav h4 ml-auto">
-          <li class="nav-item">
-            <router-link to="/goods" class="nav-link">產品列表</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/about" class="nav-link">關於我們</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/cart" class="nav-link">購物車</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/login" class="nav-link">管理者登入</router-link>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    </div>
+  <div id="layout">
+    <Navbar></Navbar>
     <router-view></router-view>
+    <footer class="py-2 sticky-bottom">
+      <div class="container d-flex justify-content-between align-items-center">
+        <div class="copyright">© 2020 Puzzle All Rights Reserved.</div>
+        <div class="list-inline contacticon">
+          <a class="list-inline-item contacticon" href="#">
+            <i class="fab fa-facebook-square fa-2x"></i>
+          </a>
+          <a class="list-inline-item contacticon" href="#">
+            <i class="fab fa-instagram fa-2x"></i>
+          </a>
+          <a class="list-inline-item contacticon" href="#">
+            <i class="fab fa-line fa-2x"></i>
+          </a>
+          <a class="list-inline-item contacticon" href="#">
+            <i class="fab fa-google-plus-square fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
 <script>
-export default {};
+import Navbar from '@/components/Navbar.vue';
+
+export default {
+  name: 'Layout',
+  data() {
+    return {};
+  },
+  components: {
+    Navbar,
+  },
+  methods: {
+  },
+};
 </script>
 
-<style scoped>
-.bg-light{
-  background-color: transparent !important;
-}
-.nav-link{
-  color: tomato !important;
+<style lang="scss">
+.user {
+  color: black !important;
+  font-size: 18px;
 }
 
+footer {
+  background-color:  #00346D;//#8aacc8;
+  color: #FFF;
+}
+
+.contacticon {
+  color: #FFF !important;
+}
 </style>

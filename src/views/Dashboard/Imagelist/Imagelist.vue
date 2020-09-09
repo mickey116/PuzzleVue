@@ -92,7 +92,7 @@
 
 <script>
 import $ from 'jquery';
-import Pagination from '../Pagination.vue';
+import Pagination from '@/components/Pagination.vue';
 
 export default {
   name: 'Imagelist',

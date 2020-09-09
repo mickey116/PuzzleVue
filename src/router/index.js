@@ -15,9 +15,14 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Home',
+    name: 'Layout',
     component: () => import('../views/Layout/Layout.vue'),
     children: [
+      {
+        path: 'home',
+        name: 'Home',
+        component: () => import('../views/Layout/Home/Home.vue'),
+      },
       {
         path: 'about',
         name: 'About',
@@ -34,7 +39,7 @@ const routes = [
         component: () => import('../views/Layout/Checkout/Checkout.vue'),
       },
       {
-        path: 'checkoutdone',
+        path: 'checkoutdone/:orderId',
         name: 'Checkoutdone',
         component: () => import('../views/Layout/Checkout/Checkoutdone.vue'),
       },
