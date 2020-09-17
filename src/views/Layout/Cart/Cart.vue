@@ -203,9 +203,7 @@ export default {
     },
     goToCheck() {
       this.$router.push('/checkout');
-      if (this.coupon.enabled) {
-        this.$bus.$emit('pushcode', this.coupon_code);
-      }
+      this.$bus.$emit('pushcode', this.coupon_code);
     },
     goToGoods() {
       this.$router.push('/goods');

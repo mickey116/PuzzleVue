@@ -299,7 +299,8 @@ export default {
       shippingFee: 0,
       isLoading: false,
       coupon: {},
-      finalTotal: 0,
+      coupon_code: '',
+      saleTotal: 0,
     };
   },
   methods: {
@@ -330,14 +331,13 @@ export default {
         vm.shippingFee = 0;
       }
     },
-    addCoupon(usecode, final) {
+    addCoupon(usecode) {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/coupon/search`;
       vm.isLoading = true;
       vm.$http.post(api, { code: usecode }).then((res) => {
         console.log(res);
         vm.coupon = res.data.data;
-        vm.finalTotal = final;
         vm.isLoading = false;
       }).catch((err) => {
         vm.isLoading = false;
@@ -363,9 +363,9 @@ export default {
   },
   created() {
     this.getCart();
-    // this.$bus.$on('pushcode', (usecode) => {
-    //   this.addCoupon(usecode);
-    // });
+    this.$bus.$on('pushcode', (usecode) => {
+      this.addCoupon(usecode);
+    });
   },
 };
 </script>

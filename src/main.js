@@ -27,6 +27,7 @@ Vue.component('Loading', Loading);
 
 // input驗證
 Vue.component('ValidationProvider', ValidationProvider);
+
 // 表單中文字
 localize('zh_TW', TW);
 
