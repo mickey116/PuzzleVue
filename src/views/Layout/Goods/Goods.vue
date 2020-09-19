@@ -199,7 +199,7 @@ export default {
         // console.log(res);
         vm.$bus.$emit('message:push',
           '加入購物車成功', 'success');
-        this.$bus.$emit('get-cart');
+        this.$bus.$emit('getcart');
       }).catch((error) => {
         // console.log(error.response.data);
         const errorData = error.response.data.errors[0];

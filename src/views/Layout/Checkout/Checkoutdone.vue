@@ -7,40 +7,49 @@
       感謝您的訂購，以下是您本次購物交易詳細。
     </h5>
     <div class="row">
-      <!-- <div class="col-md done">
-        <span>訂單編號：</span>
-      </div>
-      <div class="col-md">
-        <div class="card mb-4 border-0">
-          <div class="card-header text-center">
-            <strong>購買詳情</strong>
-          </div>
-          <div class="card-body bg-quietpink">
-          </div>
-        </div>
-
-      </div> -->
       <div class="col done my-5">
         <table class="table text-center table-bordered">
           <tbody>
             <tr style="background:#c5cae9;">
               <th>訂單編號</th>
-              <th>12345</th>
+              <th>{{order.updated.timestamp}}</th>
+            </tr>
+            <tr>
+              <td>購買者姓名</td>
+              <td> {{order.user.name}}</td>
+            </tr>
+            <tr>
+              <td>購買者電話</td>
+              <td> {{order.user.tel}}</td>
             </tr>
             <tr>
               <td>付款方式</td>
-              <td></td>
+              <td> {{order.payment}}</td>
             </tr>
             <tr>
               <td>應付金額</td>
-              <td></td>
+              <td> {{order.amount}}</td>
             </tr>
             <tr>
               <td>付款狀態</td>
-              <td></td>
+              <td>
+                <span v-if="!order.paid">尚未付款</span>
+                <div v-if="order.paid === false" class="mt-3">
+                  <button class="btn-danger btn" @click="payOrder">確認付款</button>
+                </div>
+                <span v-else class="text-success">付款完成</span>
+              </td>
             </tr>
           </tbody>
         </table>
+        <div class="row mt-4">
+          <div class="col">
+            <router-link to="/home" class="btn btn-outline-primary btn-block">回首頁</router-link>
+          </div>
+          <div class="col">
+            <router-link to="/home" class="btn btn-primary btn-block">繼續購物</router-link>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -57,8 +66,14 @@ export default {
   },
   data() {
     return {
-      order: {},
+      order: {
+        updated: 0,
+        user: {},
+      },
       orderId: '',
+      orderDetail: [],
+      coupon: {},
+      coupon_code: '',
     };
   },
   methods: {
@@ -67,25 +82,25 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders/${vm.orderId}`;
       vm.isLoading = true;
       vm.$http.get(api).then((res) => {
-        // console.log(res);
+        console.log(res);
         vm.order = res.data.data;
-        vm.isLoading = false;
+        vm.orderDetail = res.data.data.products;
+        // vm.isLoading = false;
       });
     },
     payOrder() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders/${vm.orderId}/paying`;
       vm.isLoading = true;
-      vm.$http.get(api).then(() => {
-        // console.log(res);
-        // vm.order = res.data.data;
+      vm.$http.post(api).then(() => {
+        vm.order.paid = true;
         vm.isLoading = false;
       });
     },
   },
   created() {
-    this.orderId = this.$router.params.orderId;
-    console.log(this.orderId);
+    this.orderId = this.$route.params.orderId;
+    this.getOrder();
   },
 
 };

@@ -157,7 +157,7 @@ export default {
       });
       // 運費計算
       if (vm.cart.length) {
-        if (vm.cartTotal <= 1000) {
+        if (vm.cartTotal < 1000) {
           vm.shippingFee = 60;
         }
       } else {
@@ -203,7 +203,6 @@ export default {
     },
     goToCheck() {
       this.$router.push('/checkout');
-      this.$bus.$emit('pushcode', this.coupon_code);
     },
     goToGoods() {
       this.$router.push('/goods');
@@ -217,6 +216,9 @@ export default {
 </script>
 
 <style lang="scss">
+#cart {
+  min-height: 100vh;
+}
 .cartdetail {
   max-width: 600px;
   margin: 0 auto;
@@ -265,4 +267,5 @@ table {
   border-bottom: 2px solid #ccc;
   outline: none;
 }
+
 </style>

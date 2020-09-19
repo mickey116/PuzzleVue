@@ -82,7 +82,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`;
       vm.isLoading = true;
       vm.$http.get(api).then((res) => {
-        console.log(res);
+        // console.log(res);
         vm.cart = res.data.data;
         vm.isLoading = false;
       });
@@ -99,7 +99,7 @@ export default {
   },
   created() {
     this.getCart();
-    this.$bus.$on('get-cart', () => {
+    this.$bus.$on('getcart', () => {
       this.getCart();
     });
   },
@@ -107,6 +107,9 @@ export default {
 </script>
 
 <style lang="scss">
+a {
+  font-family: 'Noto Serif JP', serif;
+}
 .custom-navbar {
   // .navbar-brand {
   //   color: #02417E;

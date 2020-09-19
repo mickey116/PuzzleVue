@@ -12,7 +12,7 @@
               {{product.category}} - {{product.title}}</li>
           </ol>
         </nav>
-        <img :src="product.imageUrl" alt="" class="w-100" height="300">
+        <img :src="product.imageUrl" alt="" class="w-100" height="350">
         <p class="mt-3 mb-1 text-secondary">商品說明 - </p>
         <p>{{product.content}}</p>
       </div>
@@ -60,7 +60,7 @@
     <section>
       <h4 class="text-center">相關產品</h4>
       <div class="row similar mt-4">
-        <div class="col-md-4 mb-4" v-for="item in similar" :key="item.id+1">
+        <div class="col-md-4 mb-4" v-for="item in similar" :key="item.id">
           <a href="#" @click.prevent="goToSimilar(item.id)">
             <img :src="item.imageUrl" class="img-fluid w-100 h-100">
           </a>
@@ -96,6 +96,8 @@ export default {
         vm.products.forEach((item) => {
           if (vm.product.category === item.category && vm.product.id !== item.id) {
             vm.similar.push(item);
+          } else if (vm.product.id === item.id) {
+            this.getProducts();
           }
         });
       });
@@ -126,7 +128,7 @@ export default {
         // console.log(res);
         vm.$bus.$emit('message:push',
           '加入購物車成功', 'success');
-        this.$bus.$emit('get-cart');
+        this.$bus.$emit('getcart');
       }).catch((error) => {
         // console.log(error.response.data);
         const errorData = error.response.data.errors[0];
@@ -140,6 +142,7 @@ export default {
     this.getProduct();
   },
 };
+
 </script>
 
 <style lang="scss">

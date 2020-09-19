@@ -21,8 +21,12 @@
               >
                 <div>
                   <strong class="h5">共計：
-                    <span class="text-danger"> {{cartTotal + shippingFee}}
-                    </span> 元
+                    <span class="text-danger" v-if="coupon.enabled">
+                      {{cartTotal * (coupon.percent / 100)}}
+                    </span>
+                    <span class="text-danger" v-else> {{cartTotal + shippingFee}}
+                    </span>
+                    元
                   </strong>
                   <br>
                   <strong class="d-block d-flex">
@@ -58,20 +62,20 @@
                 </tr>
               </tbody>
               <tfoot>
-                <!-- <tr class="coupon">
+                <tr class="coupon">
                   <td colspan="3" class="align-middle text-right">
                     <i class="fas fa-ticket-alt"></i>
                     優惠券代碼
                   </td>
                   <td class="align-middle">
-                    <input type="text" v-model="coupon_code" ref="code"/>
+                    <input type="text" v-model="coupon_code"/>
                   </td>
                   <td class="align-middle">
-                    <a href="#">
+                    <a href="#" @click.prevent="addCoupon">
                       <i class="far fa-paper-plane"></i>
                     </a>
                   </td>
-                </tr> -->
+                </tr>
                 <tr>
                   <td colspan="4" class="text-right">運費</td>
                   <td class="text-right">
@@ -99,62 +103,7 @@
 
     <!-- 付款資料 -->
       <div class="row">
-        <div class="col-md mb-4">
-          <div class="card h-100 border-0">
-            <div class="card-header  text-center">
-              <strong>顧客資訊</strong>
-            </div>
-            <div class="card-body bg-quietpink">
-              <form @submit.prevent="createOrder">
-                <div class="form-group">
-                  <validation-provider v-slot="{ errors, classes }" rules="required"
-                  name="姓名">
-                    <label for="username">收件人姓名</label>
-                    <input id="username" v-model="form.name" type="text"
-                    class="form-control" :class="classes">
-                    <span v-if="errors[0]" class="text-danger">{{ errors[0] }}</span>
-                  </validation-provider>
-                </div>
-                <div class="form-group">
-                  <validation-provider v-slot="{ errors, classes }" rules="email|required"
-                  name="Email">
-                    <label for="email">Email</label>
-                    <input id="email" v-model="form.email" type="email"
-                    class="form-control" :class="classes">
-                    <span v-if="errors[0]" class="text-danger">{{ errors[0] }}</span>
-                  </validation-provider>
-                </div>
-                <div class="form-group">
-                  <validation-provider v-slot="{ errors, classes }" rules="required|min:8"
-                  name="聯絡電話">
-                    <label for="tel">聯絡電話</label>
-                    <input id="tel" v-model="form.tel" type="tel"
-                    class="form-control" :class="classes">
-                    <span v-if="errors[0]" class="text-danger">{{ errors[0] }}</span>
-                  </validation-provider>
-                </div>
-                <div class="form-group">
-                  <validation-provider v-slot="{ errors, classes }" rules="required"
-                  name="地址">
-                    <label for="address">收件地址</label>
-                    <input id="address" v-model="form.address" type="text"
-                    class="form-control" :class="classes">
-                    <span v-if="errors[0]" class="text-danger">{{ errors[0] }}</span>
-                  </validation-provider>
-                </div>
-                <div class="form-group">
-                  <label for="message">訂單備註</label>
-                  <textarea id="message" v-model="form.message"
-                  class="form-control" cols="30" rows="3"
-                  placeholder="若使用轉帳服務，請於轉帳完成後，將轉帳後五碼留言於此。">
-                  </textarea>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
         <div class="col-md">
-          <validation-observer v-slot="{ invalid }">
             <div class="card mb-4 border-0">
               <div class="card-header text-center">
                 <strong>寄送及付款方式</strong>
@@ -189,8 +138,20 @@
                       <option value="ATM">
                         ATM
                       </option>
-                      <option value="credit">
-                        信用卡(Visa,MasterCard,...)
+                      <option value="CVS">
+                        CVS
+                      </option>
+                      <option value="Barcode">
+                        Barcode
+                      </option>
+                      <option value="Credit">
+                        Credit
+                      </option>
+                      <option value="ApplePay">
+                        ApplePay
+                      </option>
+                      <option value="GooglePay">
+                        GooglePay
                       </option>
                     </select>
                   </div>
@@ -248,17 +209,72 @@
                   </form>
               </div>
             </div>
-            <div class="form-row mb-4">
-              <div class="col">
-                <button class="btn btn-outline-secondary btn-block" @click="goToCart">
-                  <i class="fas fa-arrow-left mr-2"></i>
-                  回購物車
-                </button>
+        </div>
+        <div class="col-md mb-4">
+          <validation-observer v-slot="{ invalid }">
+            <div class="card h-100 border-0">
+              <div class="card-header  text-center">
+                <strong>顧客資訊</strong>
               </div>
-              <div class="col">
-                <button class="btn btn-primary btn-block" :disabled="invalid" type="submit">
-                  提交訂單
-                </button>
+              <div class="card-body bg-quietpink">
+                <form @submit.prevent="createOrder">
+                  <div class="form-group">
+                    <validation-provider v-slot="{ errors, classes }" rules="required"
+                    name="姓名">
+                      <label for="username">收件人姓名</label>
+                      <input id="username" v-model="form.name" type="text"
+                      class="form-control" :class="classes">
+                      <span v-if="errors[0]" class="text-danger">{{ errors[0] }}</span>
+                    </validation-provider>
+                  </div>
+                  <div class="form-group">
+                    <validation-provider v-slot="{ errors, classes }" rules="email|required"
+                    name="Email">
+                      <label for="email">Email</label>
+                      <input id="email" v-model="form.email" type="email"
+                      class="form-control" :class="classes">
+                      <span v-if="errors[0]" class="text-danger">{{ errors[0] }}</span>
+                    </validation-provider>
+                  </div>
+                  <div class="form-group">
+                    <validation-provider v-slot="{ errors, classes }" rules="required|min:8"
+                    name="聯絡電話">
+                      <label for="tel">聯絡電話</label>
+                      <input id="tel" v-model="form.tel" type="tel"
+                      class="form-control" :class="classes">
+                      <span v-if="errors[0]" class="text-danger">{{ errors[0] }}</span>
+                    </validation-provider>
+                  </div>
+                  <div class="form-group">
+                    <validation-provider v-slot="{ errors, classes }" rules="required"
+                    name="地址">
+                      <label for="address">收件地址</label>
+                      <input id="address" v-model="form.address" type="text"
+                      class="form-control" :class="classes">
+                      <span v-if="errors[0]" class="text-danger">{{ errors[0] }}</span>
+                    </validation-provider>
+                  </div>
+                  <div class="form-group">
+                    <label for="message">訂單備註</label>
+                    <textarea id="message" v-model="form.message"
+                    class="form-control" cols="30" rows="3"
+                    placeholder="若使用轉帳服務，請於轉帳完成後，將轉帳後五碼留言於此。">
+                    </textarea>
+                  </div>
+                  <div class="form-row mt-5">
+                    <div class="col">
+                      <button class="btn btn-outline-secondary btn-block" @click="goToCart">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        回購物車
+                      </button>
+                    </div>
+                    <div class="col">
+                      <button class="btn btn-primary btn-block" :disabled="invalid" type="submit">
+                        提交訂單
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </validation-observer>
@@ -300,7 +316,7 @@ export default {
       isLoading: false,
       coupon: {},
       coupon_code: '',
-      saleTotal: 0,
+      order: {},
     };
   },
   methods: {
@@ -324,18 +340,18 @@ export default {
       });
       // 運費計算
       if (vm.cart.length) {
-        if (vm.cartTotal <= 1000) {
+        if (vm.cartTotal < 1000) {
           vm.shippingFee = 60;
         }
       } else {
         vm.shippingFee = 0;
       }
     },
-    addCoupon(usecode) {
+    addCoupon() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/coupon/search`;
       vm.isLoading = true;
-      vm.$http.post(api, { code: usecode }).then((res) => {
+      vm.$http.post(api, { code: this.coupon_code }).then((res) => {
         console.log(res);
         vm.coupon = res.data.data;
         vm.isLoading = false;
@@ -351,6 +367,7 @@ export default {
       vm.$http.post(api, vm.form).then((res) => {
         console.log('訂單已建立', res);
         vm.isLoading = false;
+        vm.order = res.data.data;
         vm.$router.push(`/checkoutdone/${res.data.data.id}`);
       }).catch((err) => {
         vm.isLoading = false;
@@ -363,9 +380,6 @@ export default {
   },
   created() {
     this.getCart();
-    this.$bus.$on('pushcode', (usecode) => {
-      this.addCoupon(usecode);
-    });
   },
 };
 </script>
@@ -381,9 +395,9 @@ body {
 }
 // navbar
 .custom-navbar {
-  display: flex;
-  justify-content: space-between;
+  padding-top: 35.5px;
   #navbarNav {
+    padding: 8px 0 !important;
     display: none !important;
   }
   .user {

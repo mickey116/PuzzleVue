@@ -1,14 +1,5 @@
 <template>
   <div id="home">
-    <!-- 跑馬燈 -->
-    <!-- <marquee class="mt-1" behavior="alternate">
-      <i class="fas fa-volume-up mr-2"></i>
-      全館 1000片拼圖 均一價
-      <span class="text-danger">1000元</span>
-      <i class="fas fa-exclamation ml-2"></i>
-      <i class="fas fa-exclamation"></i>
-      <i class="fas fa-exclamation"></i>
-    </marquee> -->
     <!-- jumbo -->
     <div class="jumbotron jumbotron-fluid mt-3">
       <p class="titleword">為什麼<br>
@@ -103,7 +94,7 @@
           <div class="card h-100 text-center border-0">
             <img :src="item.imageUrl" class="w-100  rounded" height="194">
             <div class="card-footer border-top-0 py-2 border bg-white">
-              <button class="btn btn-block ">
+              <button class="btn btn-block " @click="addToCart(item.id)">
                 <i class="fas fa-cart-plus mr-2"></i>
                 加入購物車
               </button>
@@ -228,7 +219,7 @@ export default {
       };
       vm.$http.post(url, cart).then((res) => {
         console.log(res);
-        this.$bus.$emit('get-cart');
+        this.$bus.$emit('getcart');
       });
     },
     goToGoods() {
@@ -237,6 +228,9 @@ export default {
   },
   created() {
     this.getProducts();
+    this.$bus.$on('getcart', () => {
+      this.getCart();
+    });
   },
 };
 </script>
@@ -282,7 +276,7 @@ export default {
 // 新品上市
 .new {
   h3 {
-    color: #ce325d;
+    color: #339a11;
   }
   a {
     min-height: 200px;
