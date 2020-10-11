@@ -59,15 +59,15 @@ export default {
     }
   }
   .progressbar li.active{
-    color: #49599a;
+    color:  #00346D;
     &:before {
-      border-color: #49599a;
-      color: #49599a;
+      border-color:  #00346D;
+      color:  #00346D;
     }
   }
   // active的狀態下 li後面的線條改變顏色
   .progressbar li.active + li:after {
-    background-color: #49599a;
+    background-color: #00346D;
   }
 
 </style>

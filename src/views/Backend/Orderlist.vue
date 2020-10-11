@@ -15,7 +15,7 @@
     <tbody v-if="orders.length">
       <tr v-for="(item) in orders" :key="item.id"
         :class="{'text-secondary': !item.paid}">
-        <th>{{item.created.datetime}}</th>
+        <th>{{ item.created.datetime }}</th>
         <th>
           <ul class="list-unstyled">
             <li v-for="(product,key) in item.products" :key="key">
@@ -25,7 +25,7 @@
           </ul>
         </th>
         <th class="text-right">
-          {{item.amount | currency}}
+          {{ item.amount | currency }}
         </th>
         <th>
           {{ item.payment }}
@@ -93,7 +93,6 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/orders?page=${page}`;
       vm.isLoading = true;
       vm.$http.get(api).then((res) => {
-        console.log(res.data);
         vm.orders = res.data.data;
         vm.pagination = res.data.meta.pagination;
         vm.isLoading = false;

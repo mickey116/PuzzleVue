@@ -198,7 +198,6 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/coupons?page=${page}`;
       vm.isLoading = true;
       this.axios.get(api).then((response) => {
-        console.log(response.data);
         vm.isLoading = false;
         vm.coupons = response.data.data;
         vm.pagination = response.data.meta.pagination;

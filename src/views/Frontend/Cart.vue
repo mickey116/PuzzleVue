@@ -1,5 +1,6 @@
 <template>
   <div id="cart" class="container">
+    <AlertMessage/>
     <!-- loading 套件 start -->
     <loading :active.sync="isLoading"></loading>
     <!-- 用戶完成進度條 -->
@@ -7,24 +8,37 @@
     <!-- main -->
     <div class="cartdetail mb-3">
       <h5 class="text-center py-3 bg-quietpink rounded">購物車</h5>
-      <table class="table text-center">
+      <div class="text-center mt-5" v-if="cart.length == 0">
+        <i class="fas fa-shopping-cart text-secondary fa-5x mb-5"></i>
+        <p class="h3 mb-5">購物車還是空的喔！</p>
+        <p class="h5 text-secondary">“再忙，也別忘了犒賞自己唷！“ <i class="far fa-smile-wink"></i></p>
+        <div class="mt-5">
+          <button class="btn btn-primary btn-lg" @click="goToGoods">
+            去商場逛逛
+          </button>
+        </div>
+      </div>
+      <table class="table text-center" v-else>
         <tbody>
           <tr v-for="item in cart" :key="item.product.id + 1">
-          <td class="align-middle text-center">
-            <a href="#" class="text-secondary trash"
-            @click.prevent="removeCartItem(item.product.id)">
-              <i class="far fa-trash-alt " aria-hidden="true"></i>
-            </a>
-          </td>
-            <td width="100">
+            <td class="align-middle text-center" width="50">
+              <a href="#" class="text-secondary trash"
+              @click.prevent="removeCartItem(item.product.id)">
+                <i class="far fa-trash-alt " aria-hidden="true"></i>
+              </a>
+            </td>
+            <td width="100" class="image align-middle">
               <img
-                :src="item.product.imageUrl"
-                alt
+                :src="item.product.imageUrl[0]"
+                :alt="item.product.title"
                 width="100%"
+                class="d-none d-md-block"
               />
             </td>
-            <td class="align-middle">{{item.product.title}}</td>
-            <td class="align-middle" width="100">
+            <td class="align-middle" width="150">
+              {{ item.product.title }}
+            </td>
+            <td class="align-middle" width="0">
               <div class="input-group">
                 <div class="input-group-prepend">
                   <button type="button" class="btn btn-quietpink"
@@ -44,7 +58,7 @@
                 </div>
               </div>
             </td>
-            <td class="align-middle text-right" width="50">${{item.product.price}}</td>
+            <td class="align-middle text-right" width="50">{{ item.product.price | currency }}</td>
           </tr>
         </tbody>
         <tfoot>
@@ -65,24 +79,24 @@
           <tr>
             <td colspan="4" class="text-right">運費</td>
             <td class="text-right">
-              <strong>${{shippingFee}}</strong>
+              <strong>${{ shippingFee }}</strong>
             </td>
           </tr>
           <tr>
             <td colspan="4" class="text-right">合計</td>
             <td class="text-right">
-              <strong>${{cartTotal + shippingFee}}</strong>
+              <strong>{{ cartTotal + shippingFee | currency }}</strong>
             </td>
           </tr>
           <tr v-if="coupon.enabled">
             <td colspan="4" class="text-right text-success">折扣價</td>
             <td class="text-right text-success">
-              <strong>${{ cartTotal * (coupon.percent / 100) }}</strong>
+              <strong>{{ cartTotal * (coupon.percent / 100) | currency}}</strong>
             </td>
           </tr>
         </tfoot>
       </table>
-      <div class="form-row">
+      <div class="form-row" v-if="cart.length">
         <div class="col">
           <button class="btn btn-outline-secondary btn-block" @click="goToGoods">
             <i class="fas fa-arrow-left mr-2"></i>
@@ -102,11 +116,13 @@
 
 <script>
 import Progressbar from '@/components/StepProgress.vue';
+import AlertMessage from '@/components/AlertMessage.vue';
 
 export default {
   name: 'Cart',
   components: {
     Progressbar,
+    AlertMessage,
   },
   data() {
     return {
@@ -133,7 +149,6 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/products`;
       vm.$http.get(api).then((res) => {
-        console.log(res.data);
         vm.products = res.data.data;
       });
     },
@@ -142,7 +157,6 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`;
       vm.isLoading = true;
       vm.$http.get(api).then((res) => {
-        // console.log(res);
         vm.cart = res.data.data;
         vm.cartTotal = 0;
         vm.updateTotal();
@@ -172,11 +186,9 @@ export default {
         product: id,
         quantity,
       };
-      vm.$http.patch(url, cart).then((res) => {
-        console.log(res);
+      vm.$http.patch(url, cart).then(() => {
         vm.loadingCart = '';
         vm.getCart();
-        // this.$bus.$emit('get-cart');
       });
     },
     removeCartItem(id) {
@@ -185,6 +197,7 @@ export default {
       vm.isLoading = true;
       vm.$http.delete(api).then(() => {
         vm.getCart();
+        vm.$bus.$emit('getcart');
         vm.isLoading = false;
       });
     },
@@ -193,12 +206,15 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/coupon/search`;
       vm.isLoading = true;
       vm.$http.post(api, { code: this.coupon_code }).then((res) => {
-        console.log(res);
         vm.coupon = res.data.data;
         vm.isLoading = false;
-      }).catch((err) => {
+        vm.$bus.$emit('message:push',
+          '成功使用優惠券。', 'success');
+      }).catch((error) => {
         vm.isLoading = false;
-        console.log(err);
+        const errorData = error.response.data.message;
+        vm.$bus.$emit('message:push',
+          `${errorData}`, 'danger');
       });
     },
     goToCheck() {
@@ -222,30 +238,6 @@ export default {
 .cartdetail {
   max-width: 600px;
   margin: 0 auto;
-}
-// navbar
-.custom-navbar {
-  padding-top: 35.5px;
-  .navbar-brand {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    }
-  #navbarNav {
-    display: none !important;
-  }
-  .user {
-    display: none !important;
-  }
-}
-@media (max-width: 991px) {
-  .custom-navbar {
-    .navbar-toggler {
-      display: none;
-    }
-  }
-
 }
 
 // table

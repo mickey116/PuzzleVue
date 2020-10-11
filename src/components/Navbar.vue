@@ -9,7 +9,7 @@
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <router-link to="/home" class="navbar-brand mr-0">
+        <router-link to="/" class="navbar-brand mr-0">
         PUZZLE</router-link>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav mx-auto">
@@ -26,16 +26,18 @@
             <i class="fas fa-user-cog"></i>
           </router-link>
           <div class="dropdown ml-auto cart">
-            <button class="btn btn-sm btn-cart position-relative nav-link"
+            <button class="btn btn-md position-relative nav-link"
             data-toggle="dropdown" data-flip="false">
               <i class="fas fa-shopping-cart" aria-hidden="true"></i>
-              <span class="badge badge-pill badge-danger " v-if="cart.length">{{cart.length}}</span>
+              <span class="badge badge-pill badge-danger "
+              v-if="cart.length">{{ cart.length }}</span>
             </button>
             <!-- dropdown內容 -->
-            <div class="dropdown-menu dropdown-menu-right" style="min-width: 350px;">
-              <div class="p-2">
+            <div class="dropdown-menu dropdown-menu-right"
+            >
+              <div class="p-2" v-if="cart.length">
                 <h6 class="text-center">已選擇商品</h6>
-                <table class="table  text-center">
+                <table class="table text-center table-sm">
                   <tbody>
                     <tr v-for="item in cart" :key="item.product.id">
                       <td class="align-middle" width="30">
@@ -44,11 +46,11 @@
                           <i class="far fa-trash-alt " aria-hidden="true"></i>
                         </a>
                       </td>
-                      <td class="align-middle">{{item.product.title}}</td>
+                      <td class="align-middle">{{ item.product.title }}</td>
                       <td class="align-middle" width="80">
-                        {{item.quantity}} {{item.product.unit}}
+                        {{ item.quantity }} {{ item.product.unit }}
                       </td>
-                      <td class="align-middle text-right">${{item.product.price}}</td>
+                      <td class="align-middle text-right">${{ item.product.price }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -56,9 +58,14 @@
                   <i class="fas fa-cart-arrow-down"></i>
                   結帳去
                 </router-link>
-                <!-- <a href="#" class="btn btn-primary btn-block">
-                  <i class="fas fa-cart-arrow-down text-white"></i> 結帳去
-                </a> -->
+              </div>
+              <div class="p-2" v-else>
+                <h6 class="text-center mb-3">購物車沒有商品喔！</h6>
+                <div class="text-center">
+                  <router-link to="/goods" class="btn btn-primary text-white ">
+                  選購去
+                  </router-link>
+                </div>
               </div>
             </div>
           </div>
@@ -82,7 +89,6 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`;
       vm.isLoading = true;
       vm.$http.get(api).then((res) => {
-        // console.log(res);
         vm.cart = res.data.data;
         vm.isLoading = false;
       });
@@ -107,13 +113,10 @@ export default {
 </script>
 
 <style lang="scss">
-a {
-  font-family: 'Noto Serif JP', serif;
-}
 .custom-navbar {
-  // .navbar-brand {
-  //   color: #02417E;
-  // }
+  .navbar-brand {
+    font-family: 'Permanent Marker', cursive;
+  }
   #navbarNav {
     z-index: 99;
     .nav-link {
@@ -121,7 +124,6 @@ a {
       padding: 0.5rem;
       margin-left:1rem;
       font-size: 16px;
-      // transition: 0.5s all ease;
 
       &:hover {
         color: #00346D;
@@ -130,7 +132,7 @@ a {
   }
     .user {
       a {
-        color: #02417E;
+        color:  #00346D;;
       }
       button {
         outline: none;
@@ -138,7 +140,7 @@ a {
           box-shadow: none;
         }
         i {
-          color: #02417E;
+          color:  #00346D;
         }
         span {
           position: absolute;
@@ -167,6 +169,7 @@ a {
       border: transparent;
     }
     .navbar-brand {
+      padding-top: 10px;
       position: absolute;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -175,8 +178,8 @@ a {
     #navbarNav {
       position: absolute;
       top: 46px;
-      left:0;
-      right:0;
+      left: 0;
+      right: 0;
       background-color: #FFF;
       .navbar-nav {
         margin-top: 0.5rem;
@@ -188,17 +191,24 @@ a {
             background-color: #e8eaf6;
           }
         }
-
       }
-      .nav-link {
-        margin-left: 0px;
-      }
-
     }
     .user {
       position: absolute;
       top:6px;
       right:0;
+    }
+    .cart {
+      .dropdown-menu {
+        min-width: 360px;
+      }
+    }
+  }
+}
+@media (min-width: 991px) {
+  .cart {
+    .dropdown-menu {
+      width: 400px;
     }
   }
 }

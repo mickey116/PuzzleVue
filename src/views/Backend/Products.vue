@@ -15,10 +15,10 @@
       </thead>
       <tbody v-if="products.length">
         <tr v-for="item in products" :key="item.id">
-          <td>{{item.category}}</td>
-          <td>{{item.title}}</td>
-          <td class="text-right">{{item.origin_price | currency}} </td>
-          <td class="text-right">{{item.price | currency}}</td>
+          <td>{{ item.category }}</td>
+          <td>{{ item.title }}</td>
+          <td class="text-right">{{ item.origin_price | currency }} </td>
+          <td class="text-right">{{ item.price | currency }}</td>
           <td>
             <span v-if="item.enabled" class="text-success">啟用</span>
             <span v-else>未啟用</span>
@@ -51,7 +51,7 @@
           <div class="modal-header bg-dark text-white">
             <h5 id="exampleModalLabel" class="modal-title">
               <span v-if="isNew">新增產品</span>
-              <span v-else>編輯 {{tempProduct.title}}</span>
+              <span v-else>編輯 {{ tempProduct.title }}</span>
             </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -247,7 +247,6 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/products?page=${page}`;
       vm.isLoading = true;
       vm.$http.get(api).then((res) => {
-        console.log(res.data);
         vm.products = res.data.data;
         vm.pagination = res.data.meta.pagination;
         vm.isLoading = false;
@@ -290,13 +289,11 @@ export default {
       }
 
       vm.$http[httpMethod](api, vm.tempProduct)
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
           $('#productModal').modal('hide');
           vm.getProducts();
         })
-        .catch((err) => {
-          console.log('新增失敗', err);
+        .catch(() => {
           $('#productModal').modal('hide');
           vm.getProducts();
         });
@@ -306,8 +303,7 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/product/${vm.tempProduct.id}`;
 
-      vm.$http.delete(api).then((res) => {
-        console.log(res);
+      vm.$http.delete(api).then(() => {
         $('#delProductModal').modal('hide');
         vm.getProducts();
       });

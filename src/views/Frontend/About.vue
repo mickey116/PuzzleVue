@@ -1,8 +1,9 @@
 <template>
   <div class="container" id="about">
-    <div class="jumbotron jumbotron-fluid mt-3">
+    <!-- banner -->
+    <div class="aboutbanner mb-4  mt-3 mt-lg-0" :style="{backgroundImage: `url(${img.banner})` }">
     </div>
-    <div class="row my-5">
+    <div class="row">
       <div class="col-md mb-4">
         <h3 class="text-center">品牌理念</h3>
         <p class="mt-3 h5 text-center">
@@ -21,32 +22,50 @@
         <div class="w-100 thanks">
         </div>
         <div class="div text-center">
-          <router-link to="/goods" class="btn btn-primary mt-5">立即購物</router-link>
+          <router-link to="/goods" class="btn btn-primary my-4 btn-lg">立即購物</router-link>
         </div>
       </div>
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      img: {
+        banner:
+          'https://hexschool-api.s3.us-west-2.amazonaws.com/custom/JmgReiZHDg7yjqzHTiUaZFBtOVdJVI4Zlpaeiygc1pwPwwxW6udpRZMMZIUczHFAJramsTDIuwnWgIgboFgL31wgkqpB2D6YmQqznxaKDU1vF95zSTZlR5peeKiKXGvo.jpeg',
+      },
+    };
+  },
+};
+</script>
 
 <style lang="scss">
 #about {
-  font-family: 'Noto Serif JP', serif;
-
+  min-height: 100vh;
 }
-// jumbotron
-.jumbotron {
-  background-image: url(https://images.unsplash.com/photo-1590146757941-486a0c8385ec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80);
-  background-position: center center;
+// banner
+.aboutbanner {
   background-repeat: no-repeat;
+  background-position: center center;
   background-size: cover;
-  opacity: 0.6;
-  min-height: 350px;
+  height: 250px;
+  position: relative;
+  opacity: 0.7;
+}
+
+@media (max-width: 767.98px) {
+  .aboutbanner {
+    height: 180px;
+    margin-top: 15px;
+  }
 }
 .thanks {
   background-image: url(https://images.unsplash.com/photo-1526614180703-827d23e7c8f2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80);
   background-position: center center;
   min-height: 200px;
-  border-radius: 50px;
+  border-radius: 20px;
 }
 p {
   line-height: 30px !important;

@@ -6,79 +6,77 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '*',
-    redirect: '/home',
+    redirect: '/',
   },
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/Login/Login.vue'),
+    component: () => import('@/views/Login/Login.vue'),
   },
   {
-    path: '/',
-    name: 'Layout',
-    component: () => import('../views/Layout/Layout.vue'),
+    path: '',
+    component: () => import('@/views/Frontend/Layout.vue'),
     children: [
       {
-        path: 'home',
+        path: '/',
         name: 'Home',
-        component: () => import('../views/Layout/Home/Home.vue'),
+        component: () => import('@/views/Frontend/Home.vue'),
       },
       {
         path: 'about',
         name: 'About',
-        component: () => import('../views/Layout/About/About.vue'),
+        component: () => import('@/views/Frontend/About.vue'),
       },
       {
         path: 'cart',
         name: 'Cart',
-        component: () => import('../views/Layout/Cart/Cart.vue'),
+        component: () => import('@/views/Frontend/Cart.vue'),
       },
       {
         path: 'checkout',
         name: 'Checkout',
-        component: () => import('../views/Layout/Checkout/Checkout.vue'),
+        component: () => import('@/views/Frontend/Checkout/Checkout.vue'),
       },
       {
         path: 'checkoutdone/:orderId',
         name: 'Checkoutdone',
-        component: () => import('../views/Layout/Checkout/Checkoutdone.vue'),
-      },
-      {
-        path: 'goodsdetail/:id',
-        name: 'Goodsdetail',
-        component: () => import('../views/Layout/Goods/Goodsdetail.vue'),
+        component: () => import('@/views/Frontend/Checkout/Checkoutdone.vue'),
       },
       {
         path: 'goods',
         name: 'Goods',
-        component: () => import('../views/Layout/Goods/Goods.vue'),
+        component: () => import('@/views/Frontend/Goods/Goods.vue'),
+      },
+      {
+        path: 'goodsdetail/:id',
+        name: 'Goodsdetail',
+        component: () => import('@/views/Frontend/Goods/Goodsdetail.vue'),
       },
     ],
   },
   {
     path: '/admin',
-    name: 'Dashboard',
-    component: () => import('../views/Dashboard/Dashboard.vue'),
+    component: () => import('@/views/Backend/Dashboard.vue'),
     children: [
       {
         path: 'products',
         name: 'Products',
-        component: () => import('../views/Dashboard/Products/Products.vue'),
+        component: () => import('@/views/Backend/Products.vue'),
       },
       {
         path: 'coupon',
         name: 'Coupon',
-        component: () => import('../views/Dashboard/Coupon/Coupon.vue'),
+        component: () => import('@/views/Backend/Coupon.vue'),
       },
       {
         path: 'orderlist',
         name: 'Orderlist',
-        component: () => import('../views/Dashboard/Orderlist/Orderlist.vue'),
+        component: () => import('@/views/Backend/Orderlist.vue'),
       },
       {
         path: 'imagelist',
         name: 'Imagelist',
-        component: () => import('../views/Dashboard/Imagelist/Imagelist.vue'),
+        component: () => import('@/views/Backend/Imagelist.vue'),
       },
     ],
   },

@@ -1,11 +1,8 @@
 <template>
   <div id="home">
-    <!-- jumbo -->
-    <div class="jumbotron jumbotron-fluid mt-3">
-      <p class="titleword">為什麼<br>
-        要拼圖呢？</p>
+    <!-- banner -->
+    <div class="banner mb-4  mt-3 mt-lg-0" :style="{backgroundImage: `url(${images.banner})` }">
     </div>
-    <!-- 新品 -->
     <section class="container new mb-5">
       <h3 class="titlefont text-center mt-3">
         - 新品上市 -
@@ -53,7 +50,7 @@
         <div class="col selectimg px-0"></div>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <div id="carouselExampleFade" class="carousel slide carousel-fade my-5 col w-100"
           data-ride="carousel">
           <div class="carousel-inner">
@@ -83,7 +80,7 @@
             看盡一切美景。
           </p>
         </div>
-      </div>
+      </div> -->
     </section>
     <section class="container new mb-5">
       <h3 class="titlefont text-center mt-3">
@@ -180,12 +177,11 @@ export default {
   name: 'Home',
   data() {
     return {
-      products: [],
-      travel: [],
-      nature: [],
-      flowers: [],
-      animals: [],
-      custom: [],
+      images: {
+        banner:
+          'https://hexschool-api.s3.us-west-2.amazonaws.com/custom/d5ntapRTVnyNouFFrwajQojfdOsFQtxFm54uDOKMR88aNFqVHtMcPoeI8BuNASpjS2GZxpWUCJ7aR1UPTlP1jEI7VtWfZ5B89arHEUsQdc8cHRyDt1OkmCBvVIyCBDQH.jpeg',
+      },
+      products: {},
     };
   },
   methods: {
@@ -195,19 +191,6 @@ export default {
       vm.$http.get(api).then((res) => {
         // console.log(res.data);
         vm.products = res.data.data;
-        vm.products.forEach((item) => {
-          if (item.category === 'Travel') {
-            vm.travel.push(item);
-          } else if (item.category === 'Nature') {
-            vm.nature.push(item);
-          } else if (item.category === 'Flower') {
-            vm.flowers.push(item);
-          } else if (item.category === 'Animal') {
-            vm.animals.push(item);
-          } else {
-            vm.custom.push(item);
-          }
-        });
       });
     },
     addToCart(id, quantity = 1) {
@@ -227,18 +210,18 @@ export default {
     },
   },
   created() {
-    this.getProducts();
-    this.$bus.$on('getcart', () => {
-      this.getCart();
-    });
+    // this.getProducts();
+    // this.$bus.$on('getcart', () => {
+    //   this.getCart();
+    // });
   },
 };
 </script>
 
 <style lang="scss">
-.titlefont {
-  font-family: 'ZCOOL KuaiLe', cursive;
-}
+// .titlefont {
+//   font-family: 'ZCOOL KuaiLe', cursive;
+// }
 .contextfont {
   font-family: 'Noto Serif JP', serif;
   -webkit-writing-mode: vertical-rl;
@@ -246,26 +229,7 @@ export default {
   color: #197ca2;
   font-size: 36px;
 }
-// jumbotron
-.jumbotron {
-  background-image: url(https://images.unsplash.com/photo-1590146758147-74a80644616a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-  opacity: 0.5;
-  min-height: 350px;
-  position: relative;
-  .titleword{
-    position: absolute;
-    top:10%;
-    right:7%;
-    font-family: 'Noto Serif JP', serif;
-    -webkit-writing-mode: vertical-rl;
-    writing-mode: vertical-rl;
-    color: #195da2;
-    font-size: 36px;
-  }
-}
+
 // carousel
 .carousel-item {
   height: 340px;
@@ -276,7 +240,8 @@ export default {
 // 新品上市
 .new {
   h3 {
-    color: #339a11;
+    color: #0e3e6e;
+    border-bottom: 2px solid ;
   }
   a {
     min-height: 200px;

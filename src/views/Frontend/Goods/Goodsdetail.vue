@@ -1,5 +1,7 @@
 <template>
   <div id="goodsdetail" class="container">
+    <!-- loading 套件 start -->
+    <loading :active.sync="isLoading"></loading>
     <AlertMessage></AlertMessage>
     <div class="row mt-3">
       <div class="col-md">
@@ -9,21 +11,21 @@
             <li class="breadcrumb-item"><router-link to="/home">首頁</router-link></li>
             <li class="breadcrumb-item"><router-link to="/goods">產品列表</router-link></li>
             <li class="breadcrumb-item active" aria-current="page">
-              {{product.category}} - {{product.title}}</li>
+              {{ product.category }} - {{ product.title }}</li>
           </ol>
         </nav>
-        <img :src="product.imageUrl" alt="" class="w-100" height="350">
+        <img :src="product.imageUrl[0]" alt="" class="img-fluid">
         <p class="mt-3 mb-1 text-secondary">商品說明 - </p>
-        <p>{{product.content}}</p>
+        <p>{{ product.content }}</p>
       </div>
       <div class="col-md detail">
         <h3>
           <i class="fas fa-puzzle-piece"></i>
-          {{product.title}}</h3>
-        <p class="h5 text-right text-secondary mb-5"> - {{product.description}}</p>
+          {{ product.title }}</h3>
+        <p class="h5 text-right text-secondary mb-5"> - {{ product.description }}</p>
         <div class="d-flex flex-column mb-4 text-right price">
-          <span class="text-secondary"><del>原價：${{product.origin_price}}</del></span>
-          <span class="text-danger h5">特價：${{product.price}}</span>
+          <span class="text-secondary"><del>原價：${{ product.origin_price }}</del></span>
+          <span class="text-danger h5">特價：${{ product.price }}</span>
         </div>
         <div class="row addCart">
           <div class="col-md mb-3">
@@ -32,19 +34,9 @@
                 請選擇數量
               </option>
               <option :value="num" v-for="num in 10" :key="num">
-                選購 {{num}} {{product.unit}}
+                選購 {{ num }} {{ product.unit }}
               </option>
             </select>
-            <!-- <div class="input-group mx-auto">
-              <div class="input-group-prepend">
-                <button type="button" class="btn btn-quietpink">-</button>
-              </div>
-              <input type="number" min="1" class="form-control text-center" value="1">
-              <div class="input-group-append">
-                <button type="button" class="btn btn-quietpink">+
-                </button>
-              </div>
-            </div> -->
           </div>
           <div class="col-md">
             <div>
@@ -57,13 +49,25 @@
     </div>
     <hr>
     <!-- similar -->
-    <section>
-      <h4 class="text-center">相關產品</h4>
-      <div class="row similar mt-4">
-        <div class="col-md-4 mb-4" v-for="item in similar" :key="item.id">
-          <a href="#" @click.prevent="goToSimilar(item.id)">
-            <img :src="item.imageUrl" class="img-fluid w-100 h-100">
-          </a>
+    <section class="similar">
+      <h4 class="text-center mb-3">相關產品</h4>
+      <div class="row">
+        <div class="col-md-4 mb-4" v-for="item in relatedProducts"
+        :key="item.id" @click="getProduct()">
+          <div class="card h-100">
+            <router-link :to="`/goodsdetail/${item.id}`">
+              <img :src="item.imageUrl[0]" :alt="item.title" class="img-fluid w-100">
+            </router-link>
+            <router-link :to="`/goodsdetail/${item.id}`" class="text-decoration-none card-body">
+                <h6>{{ item.title }}</h6>
+                <div class="d-flex justify-content-between">
+                  <span class="text-secondary">
+                    <del>原價：{{ item.origin_price | currency }}</del
+                  ></span>
+                  <span class="text-danger h5">特價：{{ item.price | currency }}</span>
+                </div>
+              </router-link>
+          </div>
         </div>
       </div>
     </section>
@@ -81,41 +85,56 @@ export default {
   data() {
     return {
       products: [],
-      product: {},
+      product: {
+        imageUrl: [],
+      },
       similar: [],
+      isLoading: false,
+      relatedProducts: [],
     };
   },
   methods: {
     getProducts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/products`;
+      vm.isLoading = true;
       vm.$http.get(api).then((res) => {
-        console.log(res.data);
         vm.products = res.data.data;
-        vm.similar = [];
-        vm.products.forEach((item) => {
-          if (vm.product.category === item.category && vm.product.id !== item.id) {
-            vm.similar.push(item);
-          } else if (vm.product.id === item.id) {
-            this.getProducts();
-          }
-        });
+        vm.isLoading = false;
       });
     },
     getProduct() {
       const vm = this;
+      vm.relatedProducts = [];
       const { id } = vm.$route.params;
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/product/${id}`;
+      vm.isLoading = true;
       vm.$http.get(url).then((res) => {
-        console.log(res);
         vm.product = res.data.data;
         // 預設數量
         vm.product.num = 1;
+        vm.isLoading = false;
+      }).catch(() => {
+        vm.isLoading = false;
       });
     },
-    goToSimilar(similarid) {
-      this.$router.push(`/goodsdetail/${similarid}`);
-      this.getProduct();
+    getRelated() {
+      const vm = this;
+      vm.relatedProducts = [];
+      const { id } = vm.$route.params;
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/product/${id}`;
+      vm.isLoading = true;
+      vm.$http.get(url).then(() => {
+        vm.products.forEach((item) => {
+          // products內產品的種類=此產品種類 && 排除此產品
+          if (item.category === vm.product.category && item.id !== id) {
+            vm.relatedProducts.push(item);
+          }
+        });
+        vm.isLoading = false;
+      }).catch(() => {
+        vm.isLoading = false;
+      });
     },
     addToCart(id, quantity = 1) {
       const vm = this;
@@ -128,7 +147,7 @@ export default {
         // console.log(res);
         vm.$bus.$emit('message:push',
           '加入購物車成功', 'success');
-        this.$bus.$emit('getcart');
+        vm.$bus.$emit('getcart');
       }).catch((error) => {
         // console.log(error.response.data);
         const errorData = error.response.data.errors[0];
@@ -140,6 +159,7 @@ export default {
   created() {
     this.getProducts();
     this.getProduct();
+    this.getRelated();
   },
 };
 
@@ -151,7 +171,7 @@ export default {
   a {
     &:hover {
       text-decoration: none;
-      color: #007bff;
+      color: #024ea0;
     }
 
   }
@@ -162,6 +182,11 @@ export default {
   }
   .price {
     margin-top: 100px;
+  }
+  .addCart {
+    .form-control {
+      border: 1px solid #00346D;;
+    }
   }
 }
 @media (max-width: 756px) {
@@ -174,8 +199,14 @@ export default {
   }
   }
 }
-// similar
-// .similar {
-//   margin: 30px 0;
-// }
+// 相關產品
+@media (min-width: 768px) {
+  .similar {
+    img {
+    max-width: 100%;
+    height: 230px;
+    }
+  }
+}
+
 </style>

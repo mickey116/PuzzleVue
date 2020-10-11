@@ -2,6 +2,7 @@
   <div id="checkoutdone" class="container">
     <!-- progress -->
     <Progressbar></Progressbar>
+    <AlertMessage/>
     <h5 class="text-center py-3 bg-quietpink rounded">
       <i class="far fa-check-circle text-success mr-2"></i>
       感謝您的訂購，以下是您本次購物交易詳細。
@@ -10,25 +11,25 @@
       <div class="col done my-5">
         <table class="table text-center table-bordered">
           <tbody>
-            <tr style="background:#c5cae9;">
+            <tr>
               <th>訂單編號</th>
-              <th>{{order.updated.timestamp}}</th>
+              <th>{{ order.updated.timestamp }}</th>
             </tr>
             <tr>
               <td>購買者姓名</td>
-              <td> {{order.user.name}}</td>
+              <td> {{ order.user.name }}</td>
             </tr>
             <tr>
               <td>購買者電話</td>
-              <td> {{order.user.tel}}</td>
+              <td> {{ order.user.tel }}</td>
             </tr>
             <tr>
               <td>付款方式</td>
-              <td> {{order.payment}}</td>
+              <td> {{ order.payment }}</td>
             </tr>
             <tr>
               <td>應付金額</td>
-              <td> {{order.amount}}</td>
+              <td> {{ order.amount }}</td>
             </tr>
             <tr>
               <td>付款狀態</td>
@@ -58,11 +59,13 @@
 
 <script>
 import Progressbar from '@/components/StepProgress.vue';
+import AlertMessage from '@/components/AlertMessage.vue';
 
 export default {
   name: 'CheckoutDone',
   components: {
     Progressbar,
+    AlertMessage,
   },
   data() {
     return {
@@ -82,10 +85,9 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders/${vm.orderId}`;
       vm.isLoading = true;
       vm.$http.get(api).then((res) => {
-        console.log(res);
         vm.order = res.data.data;
         vm.orderDetail = res.data.data.products;
-        // vm.isLoading = false;
+        vm.isLoading = false;
       });
     },
     payOrder() {
@@ -94,6 +96,12 @@ export default {
       vm.isLoading = true;
       vm.$http.post(api).then(() => {
         vm.order.paid = true;
+        vm.$bus.$emit('message:push',
+          '成功付款。', 'success');
+        vm.isLoading = false;
+      }).catch(() => {
+        vm.$bus.$emit('message:push',
+          '訂單成功建立。', 'danger');
         vm.isLoading = false;
       });
     },
@@ -116,7 +124,7 @@ export default {
         font-weight: 800;
         font-family: "Font Awesome 5 Free";
         color: white;
-        background-color: #49599a;
+        background-color:  #00346D;
       }
     }
     &:nth-child(2) {
@@ -124,57 +132,36 @@ export default {
         content: "\f00c";
         font-weight: 800;
         font-family: "Font Awesome 5 Free";
-        border-color: #49599a;
+        border-color:  #00346D;;
         color: white;
-        background-color: #49599a;
+        background-color:  #00346D;;
       }
-      color:#49599a;
+      color: #00346D;;
     }
     &:last-child {
       &:before {
         content: "\f00c";
         font-weight: 800;
         font-family: "Font Awesome 5 Free";
-        border-color: #49599a;
+        border-color:  #00346D;;
         color: white;
-        background-color: #49599a;
+        background-color:  #00346D;;
       }
       &:after {
-        background-color: #49599a;
+        background-color:  #00346D;;
       }
-      color:#49599a;
+      color: #00346D;;
     }
   }
 }
-// navbar
-.custom-navbar {
-  padding-top: 35.5px;
-  .navbar-brand {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    }
-  #navbarNav {
-    display: none !important;
-  }
-  .user {
-    display: none !important;
-  }
-}
-@media (max-width: 991px) {
-  .custom-navbar {
-    .navbar-toggler {
-      display: none;
-    }
-  }
 
+// table
+.table {
+  tr:first-child{
+    background-color: #c5cae9;
+  }
 }
-//card
-// .card-header {
-//   border-bottom: none;
-//   background-color: #c5cae9;
-// }
+
 .done {
   max-width: 500px ;
   margin: 0 auto;

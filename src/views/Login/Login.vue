@@ -1,6 +1,9 @@
 <template>
   <div class="container">
+    <!-- loading 套件 start -->
+    <loading :active.sync="isLoading"></loading>
     <Navbar></Navbar>
+    <AlertMessage/>
     <!-- LOgin -->
     <div class="row mt-5">
       <div class="col form-signin">
@@ -34,7 +37,7 @@
             aria-labelledby="nav-register-tab"
           >
             <div class="form-row social-connect">
-              <div class="col-12 col-lg mb-3">
+              <div class="col-12 col-lg mb-3 mb-md-0">
                 <button
                   class="btn-block p-2 btn btn-line d-flex
                   align-items-center justify-content-center"
@@ -43,7 +46,7 @@
                   使用 LINE 註冊
                 </button>
               </div>
-              <div class="col-12 col-lg mb-3">
+              <div class="col-12 col-lg mb-3 mb-md-0">
                 <button
                   class="btn-block p-2 btn btn-facebook d-flex
                   align-items-center justify-content-center"
@@ -197,6 +200,7 @@
 
 <script>
 import Navbar from '@/components/Navbar.vue';
+import AlertMessage from '@/components/AlertMessage.vue';
 
 export default {
   name: 'Login',
@@ -206,10 +210,12 @@ export default {
         email: '',
         password: '',
       },
+      isLoading: false,
     };
   },
   components: {
     Navbar,
+    AlertMessage,
   },
   methods: {
     toHome() {
@@ -222,19 +228,24 @@ export default {
     signin() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/auth/login`;
+      vm.isLoading = true;
       vm.$http
         .post(api, vm.user)
         .then((res) => {
-          console.log(res.data);
+          vm.isLoading = false;
           const { token } = res.data;
           const { expired } = res.data;
           // 寫入 cookie token
           // expires 設置有效時間 unix時間轉換
           document.cookie = `hasToken=${token};expires=${new Date(expired * 1000)}; path=/`;
           vm.$router.push('/admin/products');
+          vm.$bus.$emit('message:push',
+            '登入成功', 'success');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          vm.isLoading = false;
+          vm.$bus.$emit('message:push',
+            '登入失敗', 'danger');
         });
     },
   },

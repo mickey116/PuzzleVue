@@ -113,7 +113,6 @@ export default {
       this.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/storage?page=${page}`;
       vm.$http.get(api).then((res) => {
-        console.log(res.data);
         vm.storages = res.data.data;
         vm.pagination = res.data.meta.pagination;
         vm.isLoading = false;
