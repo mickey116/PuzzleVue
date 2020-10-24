@@ -4,6 +4,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import 'bootstrap';
+import clipboard from 'clipboard';
 import {
   ValidationProvider,
   extend,
@@ -49,6 +50,8 @@ Vue.filter('date', dateFilter);
 
 // 將套件加入原型那層
 Vue.use(VueAxios, axios);
+
+Vue.prototype.Clipboard = clipboard;
 
 new Vue({
   router,

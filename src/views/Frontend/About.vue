@@ -1,29 +1,32 @@
 <template>
   <div class="container" id="about">
     <!-- banner -->
-    <div class="aboutbanner mb-4  mt-3 mt-lg-0" :style="{backgroundImage: `url(${img.banner})` }">
-    </div>
-    <div class="row">
-      <div class="col-md mb-4">
-        <h3 class="text-center">品牌理念</h3>
-        <p class="mt-3 h5 text-center">
-          在這個充滿各種壓力的現代社會，<br>
-          很多人找不到讓自己放輕鬆的方法。<br>
-          其實，拼拼圖，是一個很好的紓壓方式。<br>
-          拼圖時，你會專注在拼圖上，<br>
-          暫時忘記一切煩惱、壓力。<br>
-          有個暫時喘息的空間。<br>
-          因此，本店每個月將會挑選多幅療癒拼圖，<br>
-          供各位需要療癒的拼友們購買。<br>
-        </p>
-
+    <div class="aboutbannerbox">
+      <div class="aboutbanner mb-4  mt-3 mt-lg-0" :style="{backgroundImage: `url(${img.banner})` }">
       </div>
-      <div class="col-md">
-        <div class="w-100 thanks">
-        </div>
-        <div class="div text-center">
+      <h2 class="mb-0">關於我們</h2>
+    </div>
+    <!-- main -->
+    <div class="row no-gutters aboutbox">
+      <div class="col-md mb-0 abouttxt">
+        <div class="aboutinner">
+          <h3 class="text-center mt-4">品牌理念</h3>
+          <p class="mt-4 h5 text-center mb-0">
+            在這個充滿各種壓力的現代社會，<br>
+            很多人找不到讓自己放輕鬆的方法。<br>
+            其實，拼拼圖，是一個很好的紓壓方式。<br>
+            拼圖時，你會專注在拼圖上，<br>
+            暫時忘記一切煩惱、壓力。<br>
+            有個暫時喘息的空間。<br>
+            因此，本店每個月將會挑選多幅療癒拼圖，<br>
+            供各位需要療癒的拼友們購買。<br>
+          </p>
+          <div class="div text-center">
           <router-link to="/goods" class="btn btn-primary my-4 btn-lg">立即購物</router-link>
         </div>
+        </div>
+      </div>
+      <div class="col-md aboutimg" :style="{backgroundImage: `url(${img.bg1})` }">
       </div>
     </div>
   </div>
@@ -35,6 +38,8 @@ export default {
       img: {
         banner:
           'https://hexschool-api.s3.us-west-2.amazonaws.com/custom/JmgReiZHDg7yjqzHTiUaZFBtOVdJVI4Zlpaeiygc1pwPwwxW6udpRZMMZIUczHFAJramsTDIuwnWgIgboFgL31wgkqpB2D6YmQqznxaKDU1vF95zSTZlR5peeKiKXGvo.jpeg',
+        bg1:
+          'https://hexschool-api.s3.us-west-2.amazonaws.com/custom/6sRzkKTjG9yNMjstOCNfPj6eAva3YtCNqysk10Fg4sbondTo0aRLdu9ks3bNLqamZTX4TqBR3qfNl79yOCV0kirpLibK3hfkVzSNg6qLnFEyZzIvn6I4k2927MtcyrpW.jpeg',
       },
     };
   },
@@ -46,29 +51,52 @@ export default {
   min-height: 100vh;
 }
 // banner
-.aboutbanner {
+.aboutbannerbox {
+  position: relative;
+  .aboutbanner {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   height: 250px;
-  position: relative;
   opacity: 0.7;
-}
-
-@media (max-width: 767.98px) {
-  .aboutbanner {
-    height: 180px;
-    margin-top: 15px;
+  }
+  h2 {
+    background:rgba(62, 115, 188, 0.91);
+    color:white;
+    padding: 10px 30px;
+    position:absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
-.thanks {
-  background-image: url(https://images.unsplash.com/photo-1526614180703-827d23e7c8f2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80);
-  background-position: center center;
-  min-height: 200px;
-  border-radius: 20px;
+@media (max-width: 767.98px) {
+  .aboutbannerbox{
+    .aboutbanner {
+      height: 180px;
+      margin-top: 15px;
+    }
+    h2{
+      font-size:24px;
+    }
+  }
 }
-p {
-  line-height: 30px !important;
+// main
+.aboutbox{
+  background-color: #f7f5f1;
+  // margin-top:50px;
+  .aboutimg {
+    background-size: cover;
+    background-position: 40% 80%;
+  }
+  .abouttxt {
+    padding: 20px;
+    .aboutinner{
+      background-origin: padding-box;
+      border:1px solid white;
+
+    }
+  }
 }
 
 </style>

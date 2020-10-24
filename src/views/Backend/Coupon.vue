@@ -198,9 +198,9 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/coupons?page=${page}`;
       vm.isLoading = true;
       this.axios.get(api).then((response) => {
-        vm.isLoading = false;
         vm.coupons = response.data.data;
         vm.pagination = response.data.meta.pagination;
+        vm.isLoading = false;
       });
     },
     openCouponModal(status, item) {
@@ -258,7 +258,7 @@ export default {
       }
       // 針對日期做組合重新寫入到物件中
       // 日期格式 Y-m-d H:i:s，例如：「2020-06-16 09:31:18」
-      this.tempCoupon.deadline_at = `${this.due_date} ${this.due_time}`;
+      vm.tempCoupon.deadline_at = `${this.due_date} ${this.due_time}`;
       // API
       vm.$http[httpMethod](api, vm.tempCoupon).then((res) => {
         $('#couponModal').modal('hide');
@@ -272,7 +272,7 @@ export default {
             `${res.data.message}`,
             'danger');
         }
-        this.isLoading = false;
+        vm.isLoading = false;
       });
     },
   },
@@ -281,6 +281,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white position-relative fixed-top">
+  <div class="bg-white position-relative fixed-top" id="navbar">
     <!-- loading 套件 start -->
     <loading :active.sync="isLoading"></loading>
     <div class="container">
@@ -19,11 +19,14 @@
             <li class="nav-item">
               <router-link to="/about" class="nav-link">關於我們</router-link>
             </li>
+            <li class="nav-item">
+              <router-link to="/getcoupon" class="nav-link">專屬優惠</router-link>
+            </li>
           </ul>
         </div>
         <div class="d-flex user">
-          <router-link to="/login" class="nav-link">
-            <i class="fas fa-user-cog"></i>
+          <router-link to="/favorite" class="nav-link">
+            <i class="fas fa-heart"></i>
           </router-link>
           <div class="dropdown ml-auto cart">
             <button class="btn btn-md position-relative nav-link"
@@ -113,6 +116,10 @@ export default {
 </script>
 
 <style lang="scss">
+#navbar {
+  box-shadow:0 1px 5px 1px rgba(0,0,0, 0.1);
+  margin-bottom: 20px;
+}
 .custom-navbar {
   .navbar-brand {
     font-family: 'Permanent Marker', cursive;
@@ -167,6 +174,7 @@ export default {
     padding-bottom: 0px;
     .navbar-toggler {
       border: transparent;
+      outline: none;
     }
     .navbar-brand {
       padding-top: 10px;
@@ -199,6 +207,12 @@ export default {
       right:0;
     }
     .cart {
+      button {
+        i {
+          position: absolute;
+          top:60%;
+        }
+      }
       .dropdown-menu {
         min-width: 360px;
       }
@@ -207,6 +221,12 @@ export default {
 }
 @media (min-width: 991px) {
   .cart {
+    button {
+        i {
+          position: absolute;
+          top:70%;
+        }
+      }
     .dropdown-menu {
       width: 400px;
     }

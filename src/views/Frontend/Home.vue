@@ -151,7 +151,7 @@
     </div>
 
     <!-- 訂閱 -->
-    <section class="subscribe bg-quietpink">
+    <section class="subscribe">
       <div class="container">
         <div class="row">
           <div class="col-md"></div>
@@ -260,22 +260,15 @@ export default {
   }
 }
 
-// @media (max-width: 767.98px) {
-//   .banner {
-//     height: px;
-//     margin-top: 15px;
-//   }
-// }
-
 //title
 .hometitle {
-  color:#283593;
+  color:#00346D;
   text-align: center;
   margin-bottom: 40px;
   .line {
     width: 100px;
     height: 4px;
-    background:#3c4ed2;
+    background:#025dc1;
     margin: 0 auto;
   }
 }
@@ -297,8 +290,8 @@ export default {
   .newTxt{
     padding: 10px;
     text-align: center;
-    color: #283593;
-    background: #f7f5f1;//#eef2f9;
+    color: #00346D;
+    background: #f7f5f1;
     .newInner {
       border: 2px solid white;
       padding: 15px;
@@ -327,7 +320,7 @@ export default {
     .cusWrap {
       border:1px solid white;
       padding: 50px;
-      color:#283593;
+      color:#00346D;
       .badge {
         font-size: 18px;
       }
@@ -387,5 +380,6 @@ export default {
 // 訂閱
 .subscribe {
   background-color: #f7f5f1;
+  box-shadow:0 2px 10px 5px rgba(0,0,0, 0.25);
 }
 </style>

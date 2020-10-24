@@ -28,6 +28,16 @@ const routes = [
         component: () => import('@/views/Frontend/About.vue'),
       },
       {
+        path: 'favorite',
+        name: 'Favorite',
+        component: () => import('@/views/Frontend/Favorite.vue'),
+      },
+      {
+        path: 'getcoupon',
+        name: 'GetCoupon',
+        component: () => import('@/views/Frontend/GetCoupon.vue'),
+      },
+      {
         path: 'cart',
         name: 'Cart',
         component: () => import('@/views/Frontend/Cart.vue'),

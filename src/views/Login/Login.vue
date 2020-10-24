@@ -232,7 +232,6 @@ export default {
       vm.$http
         .post(api, vm.user)
         .then((res) => {
-          vm.isLoading = false;
           const { token } = res.data;
           const { expired } = res.data;
           // 寫入 cookie token
@@ -241,11 +240,12 @@ export default {
           vm.$router.push('/admin/products');
           vm.$bus.$emit('message:push',
             '登入成功', 'success');
+          vm.isLoading = false;
         })
         .catch(() => {
-          vm.isLoading = false;
           vm.$bus.$emit('message:push',
             '登入失敗', 'danger');
+          vm.isLoading = false;
         });
     },
   },

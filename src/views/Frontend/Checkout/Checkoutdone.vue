@@ -3,8 +3,8 @@
     <!-- progress -->
     <Progressbar></Progressbar>
     <AlertMessage/>
-    <h5 class="text-center py-3 bg-quietpink rounded">
-      <i class="far fa-check-circle text-success mr-2"></i>
+    <h5 class="text-center py-3 bg-primary rounded text-white">
+      <i class="far fa-check-circle text-white mr-2"></i>
       感謝您的訂購，以下是您本次購物交易詳細。
     </h5>
     <div class="row">
@@ -72,6 +72,7 @@ export default {
       order: {
         updated: 0,
         user: {},
+        coupon: {},
       },
       orderId: '',
       orderDetail: [],
@@ -109,6 +110,7 @@ export default {
   created() {
     this.orderId = this.$route.params.orderId;
     this.getOrder();
+    this.$bus.$emit('getcart');
   },
 
 };
@@ -132,9 +134,9 @@ export default {
         content: "\f00c";
         font-weight: 800;
         font-family: "Font Awesome 5 Free";
-        border-color:  #00346D;;
+        border-color:  #00346D;
         color: white;
-        background-color:  #00346D;;
+        background-color:  #00346D;
       }
       color: #00346D;;
     }
@@ -156,17 +158,15 @@ export default {
 }
 
 // table
-.table {
-  tr:first-child{
-    background-color: #c5cae9;
-  }
-}
-
 .done {
   max-width: 500px ;
   margin: 0 auto;
   .table {
-    border: 2px solid #c5cae9;
+    border: 2px solid #00346D;//#c5cae9;
+    tr:first-child {
+      background-color: #00346D;;//#c5cae9;
+      color:white;
+    }
   }
 }
 </style>

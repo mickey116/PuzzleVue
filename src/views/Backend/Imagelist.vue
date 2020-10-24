@@ -16,6 +16,7 @@
           <td>
             <img
               :src="item.path"
+              :alt="item.id"
               width="100px"
               class="img-fluid"
             >
@@ -130,8 +131,8 @@ export default {
         this.$bus.$emit('message:push',
           '刪除成功',
           'success');
-        this.isLoading = false;
         this.getData();
+        this.isLoading = false;
       });
     },
   },
@@ -140,7 +141,3 @@ export default {
   },
 };
 </script>
-
-<style>
-
-</style>

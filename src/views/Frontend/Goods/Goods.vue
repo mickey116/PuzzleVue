@@ -4,16 +4,24 @@
     <loading :active.sync="isLoading"></loading>
     <AlertMessage></AlertMessage>
     <!-- banner -->
-    <div class="banner mb-4  mt-3 mt-lg-0" :style="{backgroundImage: `url(${img.banner})` }">
+    <div class="bannerbox">
+      <div class="banner mb-4  mt-3 mt-lg-0" :style="{backgroundImage: `url(${img.banner})` }">
+      </div>
+      <h2 class="mb-0">產品列表</h2>
     </div>
     <!-- main -->
     <div class="row">
-      <div class="col-3">
+      <div class="col-sm-3 goodstype mb-3 mb-sm-0">
         <h5 class="text-center title">
           <i class="fas fa-puzzle-piece d-none d-md-inline-block"></i>
           產品類別
         </h5>
         <ul class="list-group text-center">
+          <li class="list-group-item">
+            <a href="#"
+            :class="{ active: filterType === 'All' }"
+            @click.prevent="getFilter(filterType = 'All')">全部</a>
+          </li>
           <li class="list-group-item">
             <a href="#"
             :class="{ active: filterType === 'Travel' }"
@@ -37,11 +45,11 @@
           <li class="list-group-item">
             <a href="#"
             :class="{ active: filterType === 'Custom' }"
-            @click.prevent="getFilter(filterType = 'Custom')">客製化拼圖</a>
+            @click.prevent="getFilter(filterType = 'Custom')">客製</a>
           </li>
         </ul>
       </div>
-      <div class="col-9">
+      <div class="col-sm-9">
         <div class="row">
           <div class="col-md-6 mb-4" v-for="item in newProducts" :key="item.id">
             <div class="card shadow-sm h-100">
@@ -50,6 +58,16 @@
                   <img :src="item.imageUrl[0]" :alt="item.title"
                   class="w-100 card-img-top img-md-fluid">
                 </router-link>
+                <div
+                  title="收藏"
+                  class="iconTags"
+                  @click.prevent="addFollow(item.id)">
+                  <i
+                    v-if="followData.indexOf(item.id) === -1"
+                    class="far fa-heart">
+                  </i>
+                  <i v-else class="fas fa-heart"></i>
+                </div>
                 <div class="info">
                   <router-link :to="`/goodsdetail/${item.id}`" class="detaillogo">
                   <i class="fas fa-info"></i>
@@ -89,11 +107,12 @@ export default {
       products: [],
       newProducts: [],
       isLoading: false,
-      filterType: 'Travel',
+      filterType: 'All',
       img: {
         banner:
           'https://hexschool-api.s3.us-west-2.amazonaws.com/custom/JmgReiZHDg7yjqzHTiUaZFBtOVdJVI4Zlpaeiygc1pwPwwxW6udpRZMMZIUczHFAJramsTDIuwnWgIgboFgL31wgkqpB2D6YmQqznxaKDU1vF95zSTZlR5peeKiKXGvo.jpeg',
       },
+      followData: JSON.parse(localStorage.getItem('followCard')) || [],
     };
   },
   methods: {
@@ -109,6 +128,9 @@ export default {
     },
     getFilter() {
       switch (this.filterType) {
+        case 'All':
+          this.newProducts = this.products;
+          break;
         case 'Travel':
           this.newProducts = this.products.filter((item) => item.category === 'Travel');
           break;
@@ -140,13 +162,27 @@ export default {
         vm.isLoading = false;
         vm.$bus.$emit('message:push',
           '加入購物車成功', 'success');
-        this.$bus.$emit('getcart');
+        vm.$bus.$emit('getcart');
       }).catch((error) => {
         vm.isLoading = false;
         const errorData = error.response.data.errors[0];
         vm.$bus.$emit('message:push',
           `${errorData}`, 'danger');
       });
+    },
+    addFollow(id) {
+      const vm = this;
+      const followId = this.followData.indexOf(id);
+      if (followId === -1) {
+        vm.followData.push(id);
+        vm.$bus.$emit('message:push',
+          '加入收藏', 'success');
+      } else {
+        vm.followData.splice(followId, 1);
+        vm.$bus.$emit('message:push',
+          '取消收藏', 'danger');
+      }
+      localStorage.setItem('followCard', JSON.stringify(this.followData));
     },
   },
   created() {
@@ -158,19 +194,35 @@ export default {
 
 <style lang="scss">
 // banner
-.banner {
+.bannerbox {
+  position: relative;
+  .banner {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   height: 250px;
-  position: relative;
   opacity: 0.7;
+  }
+  h2 {
+    background:rgba(62, 115, 188, 0.91);
+    color:white;
+    padding: 10px 30px;
+    position:absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 @media (max-width: 767.98px) {
-  .banner {
-    height: 180px;
-    margin-top: 15px;
+  .bannerbox{
+    .banner {
+      height: 180px;
+      margin-top: 15px;
+    }
+    h2{
+      font-size:24px;
+    }
   }
 }
 
@@ -199,44 +251,68 @@ export default {
     }
   }
 }
+@media (max-width: 575px){
+  .goodstype {
+    .title {
+      display: none;
+    }
+    .list-group{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      .list-group-item {
+        border-bottom: none;
+        flex:1;
+      }
+    }
+  }
+}
+
 // card
 .card {
   border: none;
   .card-head {
     position: relative;
-    // img {
-    //   height: 300px;
-    // }
-  }
-  .info {
-    width: 100%;
+    .iconTags {
     position: absolute;
-    bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    padding:0 15px;
-    font-size: 22px;
-    .detaillogo{
-      display: block;
-      text-indent: 9px;
-      width: 46.75px;
-      border: 1px solid #fff;
-      border-radius: 50%;
-      background: #fff;
-      color: #00346D;
-      cursor: pointer;
-      i{
-        padding-top:9px;
-      }
+    padding-right: 15px;
+    top: 0;
+    right: 0;
+    font-size:30px;
+    color: #d63e3e;
+    cursor: pointer;
+    text-shadow: 0 1px 3px #b14c4c;
     }
-    .cartlogo i{
-      display: block;
-      padding: 10px;
-      border: 1px solid #fff;
-      border-radius: 50%;
-      background: #fff;
-      color: #00346D;
-      cursor: pointer;
+    .info {
+      width: 100%;
+      position: absolute;
+      bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      padding:0 15px;
+      font-size: 22px;
+      .detaillogo{
+        display: block;
+        text-indent: 9px;
+        width: 46.75px;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        background: #fff;
+        color: #00346D;
+        cursor: pointer;
+        i{
+          padding-top:9px;
+        }
+      }
+      .cartlogo i{
+        display: block;
+        padding: 10px;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        background: #fff;
+        color: #00346D;
+        cursor: pointer;
+      }
     }
   }
 }

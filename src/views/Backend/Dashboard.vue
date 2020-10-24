@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="dashboard">
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3 text-center" href="#">Puzzle</a>
       <button
@@ -64,15 +64,13 @@ export default {
             vm.checkSuccess = true;
           }
         })
-        .catch((error) => {
+        .catch(() => {
           // 驗證失敗，轉回登入頁面
-          console.log(error);
           vm.$router.push('/login');
         });
     },
     logout() {
       document.cookie = 'hasToken=;expires=;';
-      console.log('token 已清除');
       this.$router.push('/login');
     },
   },
@@ -156,13 +154,15 @@ body {
 /*
  * Navbar
  */
-
-.navbar-brand {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  font-size: 1rem;
-  background-color: rgba(0, 0, 0, 0.25);
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25);
+#dashboard {
+  .navbar-brand {
+    font-family: 'Permanent Marker', cursive;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 1rem;
+    background-color: rgba(0, 0, 0, 0.25);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25);
+  }
 }
 
 .navbar .navbar-toggler {
