@@ -209,7 +209,7 @@ export default {
     return {
       img: {
         banner:
-          'https://hexschool-api.s3.us-west-2.amazonaws.com/custom/d5ntapRTVnyNouFFrwajQojfdOsFQtxFm54uDOKMR88aNFqVHtMcPoeI8BuNASpjS2GZxpWUCJ7aR1UPTlP1jEI7VtWfZ5B89arHEUsQdc8cHRyDt1OkmCBvVIyCBDQH.jpeg',
+          'https://hexschool-api.s3.us-west-2.amazonaws.com/custom/z4xo7sB2yS9LrYCOHdFrMvJxpWOPLrchPjjqAIXOGOWhAbEw47USRilskKNpMrbL0AYbAYv3PHCXNLYaeya95nnYNnbddv9dqsSesw6WMFErAofMROyNUNUfyqnzX1j1.jpeg',
         new1:
           'https://hexschool-api.s3.us-west-2.amazonaws.com/custom/Wrq3XcTAtHryJ1ekAoq3Idy2garkC2OXzN8QAb1iy73aOXwKMwTU7On8b4ijD2DzBF3Gob8ASXOZkyLutmUncmCiyHuDXYSbTTt1RY26LUUxSPzxlr0UxqgBNKeMOvWd.jpeg',
         new2:

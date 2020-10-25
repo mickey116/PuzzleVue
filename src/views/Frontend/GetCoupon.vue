@@ -37,6 +37,7 @@
   </div>
 </template>
 <script>
+import $ from 'jquery';
 import AlertMessage from '@/components/AlertMessage.vue';
 
 export default {
@@ -104,6 +105,28 @@ export default {
       myCanvas.addEventListener(endEvtName, () => {
         myCanvas.removeEventListener(moveEvtName, draw, false);
       }, false);
+      // 扣除到一定程度 自動打開
+      document.addEventListener(endEvtName, () => {
+        /* 獲取imageData對象 */
+        const imageDate = area.getImageData(0, 0, myCanvas.width, myCanvas.height);
+        // 所有像素點
+        const allPX = imageDate.width * imageDate.height;
+        // 刮開的像素點
+        let iNum = 0;
+        // eslint-disable-next-line no-plusplus
+        for (let i = 0; i < allPX; i++) {
+          if (imageDate.data[i * 4 + 3] === 0) {
+            // eslint-disable-next-line no-plusplus
+            iNum++;
+          }
+        }
+        // 刮開多少比例，canvas消失
+        // eslint-disable-next-line no-mixed-operators
+        if (iNum >= allPX * 3 / 10) {
+          $('#myCanvas').fadeOut(500);
+        }
+      }, true);
+
       this.getPrize();
     },
     getPrize() {
@@ -209,6 +232,7 @@ export default {
       top:0;
       left:0;
       z-index: 999;
+      // cursor: pointer;
     }
     .coupon {
       input {
@@ -225,9 +249,11 @@ export default {
       input:focus {
         outline: none;
       }
-      .copybtn{
-        cursor: pointer ;
-      }
+      // .copybtn{
+      //   position: absolute;
+      //   right:10%;
+      //   z-index:998;
+      // }
     }
   }
 }

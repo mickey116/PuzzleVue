@@ -1,12 +1,13 @@
 <template>
-  <div class="container">
+  <div >
     <!-- loading 套件 start -->
     <loading :active.sync="isLoading"></loading>
-    <Navbar></Navbar>
     <AlertMessage/>
+    <Navbar></Navbar>
     <!-- LOgin -->
-    <div class="row mt-5">
-      <div class="col form-signin">
+    <div class="container">
+      <div class="row">
+      <div class="col-md-8 form-signin">
         <nav>
           <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
             <a
@@ -173,6 +174,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
     <!-- Modal -->
     <div
