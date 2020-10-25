@@ -1,0 +1,15 @@
+
+// table
+.done {
+  max-width: 500px;
+  margin: 0 auto;
+
+  .table {
+    border: 2px solid #00346D;
+
+    tr:first-child {
+      background-color: #00346D;
+      color: white;
+    }
+  }
+}

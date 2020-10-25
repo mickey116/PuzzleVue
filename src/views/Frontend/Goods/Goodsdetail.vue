@@ -144,12 +144,10 @@ export default {
         quantity,
       };
       vm.$http.post(url, cart).then(() => {
-        // console.log(res);
         vm.$bus.$emit('message:push',
           '加入購物車成功', 'success');
         vm.$bus.$emit('getcart');
       }).catch((error) => {
-        // console.log(error.response.data);
         const errorData = error.response.data.errors[0];
         vm.$bus.$emit('message:push',
           `${errorData}`, 'danger');
@@ -164,49 +162,3 @@ export default {
 };
 
 </script>
-
-<style lang="scss">
-.breadcrumb{
-  background: transparent;
-  a {
-    &:hover {
-      text-decoration: none;
-      color: #024ea0;
-    }
-
-  }
-}
-.detail {
-  h3 {
-    margin-top: 80px;
-  }
-  .price {
-    margin-top: 100px;
-  }
-  .addCart {
-    .form-control {
-      border: 1px solid #00346D;;
-    }
-  }
-}
-@media (max-width: 756px) {
-  .detail {
-    h3 {
-      margin-top: 30px;
-    }
-    .price {
-    margin-top: 24px;
-  }
-  }
-}
-// 相關產品
-@media (min-width: 768px) {
-  .similar {
-    img {
-    max-width: 100%;
-    height: 230px;
-    }
-  }
-}
-
-</style>

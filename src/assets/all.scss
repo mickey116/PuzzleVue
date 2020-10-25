@@ -1,3 +1,14 @@
 @import "~bootstrap/scss/functions";
-@import "./helpers/variables";
+@import "./helpers/_variables";
 @import "~bootstrap/scss/bootstrap";
+
+// views
+@import "./views/_home";
+@import "./views/_getcoupon";
+@import "./views/_favorite";
+@import "./views/_cart";
+@import "./views/_about";
+@import "./views/_goods";
+@import "./views/_goodsdetail";
+@import "./views/_checkout";
+@import "./views/_checkoutdone";

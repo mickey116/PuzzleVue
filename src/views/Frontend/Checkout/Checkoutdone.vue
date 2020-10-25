@@ -126,46 +126,43 @@ export default {
         font-weight: 800;
         font-family: "Font Awesome 5 Free";
         color: white;
-        background-color:  #00346D;
+        background-color: #00346D;
       }
     }
+
     &:nth-child(2) {
       &:before {
         content: "\f00c";
         font-weight: 800;
         font-family: "Font Awesome 5 Free";
-        border-color:  #00346D;
+        border-color: #00346D;
         color: white;
-        background-color:  #00346D;
+        background-color: #00346D;
       }
-      color: #00346D;;
+
+      color: #00346D;
+      ;
     }
+
     &:last-child {
       &:before {
         content: "\f00c";
         font-weight: 800;
         font-family: "Font Awesome 5 Free";
-        border-color:  #00346D;;
+        border-color: #00346D;
+        ;
         color: white;
-        background-color:  #00346D;;
+        background-color: #00346D;
+        ;
       }
-      &:after {
-        background-color:  #00346D;;
-      }
-      color: #00346D;;
-    }
-  }
-}
 
-// table
-.done {
-  max-width: 500px ;
-  margin: 0 auto;
-  .table {
-    border: 2px solid #00346D;//#c5cae9;
-    tr:first-child {
-      background-color: #00346D;;//#c5cae9;
-      color:white;
+      &:after {
+        background-color: #00346D;
+        ;
+      }
+
+      color: #00346D;
+      ;
     }
   }
 }

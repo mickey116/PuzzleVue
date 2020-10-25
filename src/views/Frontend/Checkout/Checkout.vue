@@ -405,63 +405,22 @@ export default {
         color: white;
       }
     }
+
     &:nth-child(2) {
-      color: #00346D;;
+      color: #00346D;
+      ;
+
       &:before {
-        border-color: #00346D;;
+        border-color: #00346D;
+        ;
       }
     }
+
     &:last-child {
       &:after {
-        background-color: #00346D;;
+        background-color: #00346D;
+        ;
       }
-    }
-  }
-}
-//card
-.card-header {
-  border-bottom: none;
-  background-color: #00346D; //#c5cae9;
-  color:white;
-}
-// cartdetailmenu
-.menuopen, .menuclose {
-  font-size: 1.2rem;
-}
-[aria-expanded="false"] .menuopen {
-  display: block;
-}
-[aria-expanded="false"] .menuclose {
-  display: none;
-}
-[aria-expanded="true"] .menuopen {
-  display: none;
-}
-[aria-expanded="true"] .menuclose {
-  display: block;
-}
-
-// table
-.table td{
-  border: none;
-  margin: 0.5rem;
-}
-
-// coupon
-.couponuse {
-  input {
-    text-indent: 1rem;
-    max-width:150px;
-    border: none;
-    border-bottom: 2px solid #ccc;
-    outline: none;
-  }
-}
-// fee
-.fee {
-  p{
-    span:last-child {
-      margin-left:100px;
     }
   }
 }

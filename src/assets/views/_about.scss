@@ -1,0 +1,60 @@
+#about {
+  min-height: 100vh;
+}
+
+// banner
+.aboutbannerbox {
+  position: relative;
+
+  .aboutbanner {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    height: 250px;
+    opacity: 0.7;
+  }
+
+  h2 {
+    background: rgba(62, 115, 188, 0.91);
+    color: white;
+    padding: 10px 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .aboutbannerbox {
+    .aboutbanner {
+      height: 180px;
+      margin-top: 15px;
+    }
+
+    h2 {
+      font-size: 24px;
+    }
+  }
+}
+
+// main
+.aboutbox {
+  background-color: #f7f5f1;
+
+  // margin-top:50px;
+  .aboutimg {
+    background-size: cover;
+    background-position: 40% 80%;
+  }
+
+  .abouttxt {
+    padding: 20px;
+
+    .aboutinner {
+      background-origin: padding-box;
+      border: 1px solid white;
+
+    }
+  }
+}
