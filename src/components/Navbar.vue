@@ -118,7 +118,6 @@ export default {
 <style lang="scss">
 #navbar {
   box-shadow:0 1px 5px 1px rgba(0,0,0, 0.1);
-  margin-bottom: 20px;
 }
 .custom-navbar {
   .navbar-brand {
