@@ -1,7 +1,6 @@
-#about {
+#cart {
   min-height: 100vh;
 }
-
 // banner
 .aboutbannerbox {
   position: relative;
@@ -42,6 +41,7 @@
 .aboutbox {
   background-color: #f7f5f1;
 
+
   // margin-top:50px;
   .aboutimg {
     background-size: cover;
@@ -56,5 +56,11 @@
       border: 1px solid white;
 
     }
+  }
+}
+
+@media (max-width:375px) {
+  .aboutbox{
+    margin-bottom: 24px;
   }
 }

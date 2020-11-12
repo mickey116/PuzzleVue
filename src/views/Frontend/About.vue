@@ -7,7 +7,7 @@
       <h2 class="mb-0">關於我們</h2>
     </div>
     <!-- main -->
-    <div class="row no-gutters aboutbox">
+    <div class="row no-gutters aboutbox mb-4">
       <div class="col-md mb-0 abouttxt">
         <div class="aboutinner">
           <h3 class="text-center mt-4">品牌理念</h3>
