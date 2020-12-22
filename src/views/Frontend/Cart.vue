@@ -69,7 +69,7 @@
             </tr>
           </tbody>
         </table>
-        <div v-if="isShow">
+        <div v-if="cart.length">
           <table class="table mt-4x">
             <tbody class="text-secondary">
               <tr>
@@ -129,7 +129,6 @@ export default {
       shippingFee: 0,
       isLoading: false,
       loadingCart: '',
-      isShow: false,
       form: {
         name: '',
         email: '',
@@ -235,11 +234,6 @@ export default {
   created() {
     this.getProducts();
     this.getCart();
-    if (this.cart.length === 0) {
-      this.isShow = false;
-    } else {
-      this.isShow = true;
-    }
   },
 };
 </script>
